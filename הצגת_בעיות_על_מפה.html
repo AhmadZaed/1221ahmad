@@ -1,19 +1,85 @@
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-.fa-anchor,.fa-coffee {font-size:200px}
-</style>
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>הצגת בעיות על מפה</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+    }
+    #map {
+      width: 100%;
+      height: 600px;
+    }
+    .filter-container {
+      margin: 20px;
+      text-align: center;
+    }
+    select, button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="filter-container">
+    <label for="category">קטגוריה:</label>
+    <select id="category">
+      <option value="">כל הקטגוריות</option>
+      <option value="Lighting">תאורה</option>
+      <option value="Sanitation">ניקיון</option>
+      <option value="Infrastructure">תשתיות</option>
+    </select>
 
-<div class="w3-top">
-    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-      <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-      <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-      <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-      <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-      <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-    </div>
+    <label for="neighborhood">אזור:</label>
+    <select id="neighborhood">
+      <option value="">כל האזורים</option>
+      <option value="Downtown">מרכז העיר</option>
+      <option value="North">צפון העיר</option>
+    </select>
+
+    <button onclick="fetchIssues()">סנן</button>
+  </div>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([31.0461, 34.8516], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    let markers = [];
+
+    function fetchIssues() {
+      const category = document.getElementById('category').value;
+      const neighborhood = document.getElementById('neighborhood').value;
+
+      fetch(`/get_reports?category=${category}&neighborhood=${neighborhood}`)
+        .then(response => response.json())
+        .then(data => {
+          // הסרת סימנים קיימים
+          markers.forEach(marker => marker.remove());
+          markers = [];
+
+          // הוספת סימנים חדשים
+          data.forEach(report => {
+            const marker = L.marker([report.latitude, report.longitude]).addTo(map);
+            marker.bindPopup(`<b>${report.description}</b><br><img src="${report.image_url}" alt="Image" width="100%">`);
+            markers.push(marker);
+          });
+        });
+    }
+
+    // טען נתונים ראשוניים
+    fetchIssues();
+  </script>
+</body>
+</html>

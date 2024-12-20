@@ -18,6 +18,8 @@ class Report(db.Model):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     image_url = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(50), nullable=True)  # קטגוריה
+    neighborhood = db.Column(db.String(100), nullable=True)  # אזור
 
     def __repr__(self):
         return f'<Report {self.id}>'
@@ -77,3 +79,36 @@ def submit_report():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/get_reports', methods=['GET'])
+def get_reports():
+    # קבלת פרמטרים לסינון מהבקשה
+    category = request.args.get('category')
+    neighborhood = request.args.get('neighborhood')
+
+    # שאילתה בסיסית
+    query = Report.query
+
+    # סינון לפי קטגוריה אם נבחרה
+    if category:
+        query = query.filter_by(category=category)
+
+    # סינון לפי אזור (neighborhood) אם נבחר
+    if neighborhood:
+        query = query.filter(Report.neighborhood.like(f'%{neighborhood}%'))
+
+    # הפקת הנתונים במבנה JSON
+    reports = [
+        {
+            'id': report.id,
+            'description': report.description,
+            'latitude': report.latitude,
+            'longitude': report.longitude,
+            'image_url': report.image_url,
+            'category': report.category,
+            'neighborhood': report.neighborhood
+        }
+        for report in query.all()
+    ]
+
+    return jsonify(reports)
