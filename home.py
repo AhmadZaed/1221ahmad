@@ -112,3 +112,27 @@ def get_reports():
     ]
 
     return jsonify(reports)
+from flask import Flask, render_template, request
+
+app = Flask(_name_)
+
+
+ticket_data = {
+    "12345": "הפנייה בסטטוס: בתהליך טיפול",
+    "67890": "הפנייה בסטטוס: טופלה בהצלחה",
+    "11223": "הפנייה בסטטוס: ממתינה לאישור"
+}
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/check_status', methods=['POST'])
+def check_status():
+    ticket_number = request.form['ticket_number']
+    
+    status = ticket_data.get(ticket_number, "לא נמצא סטטוס לפנייה זו")
+    return render_template('index.html', status=status)
+
+if _name_ == '_main_':
+    app.run(debug=True)
