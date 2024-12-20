@@ -1,19 +1,79 @@
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-.fa-anchor,.fa-coffee {font-size:200px}
-</style>
+<<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בחר מחלקה לפנייה</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Lato", sans-serif;
+        }
 
+        .w3-bar, h1, button {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .fa-anchor, .fa-coffee {
+            font-size: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- תפריט ניווט -->
 <div class="w3-top">
     <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-      <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-      <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-      <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-      <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-      <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+        <a href="javascript:void(0);" class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
     </div>
+</div>
+
+<!-- הצגת מחלקות לפנייה -->
+<div class="w3-container" style="margin-top: 60px;">
+    <h1 class="w3-center">בחר מחלקה לפנייה</h1>
+    <p class="w3-center">בחר מחלקה על מנת להמשיך לפנייה או לקבל מידע נוסף</p>
+
+    <div class="w3-row">
+        <div class="w3-col s12 m4">
+            <a href="פנייה_מחלקת_חשמל.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת חשמל</a>
+        </div>
+        <div class="w3-col s12 m4">
+            <a href="פנייה_מחלקת_תחבורה.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת תחבורה</a>
+        </div>
+        <div class="w3-col s12 m4">
+            <a href="פנייה_מחלקת_מים.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת מים</a>
+        </div>
+        <div class="w3-col s12 m4">
+            <a href="פנייה_מחלקת_ספורט.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת ספורט</a>
+        </div>
+        <div class="w3-col s12 m4">
+            <a href="פנייה_מחלקת_נקיון.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת נקיון</a>
+        </div>
+        <div class="w3-col s12 m4">
+            <a href="פנייה_מחלקת_פתחון.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת פיתוח</a>
+        </div>
+    </div>
+</div>
+
+<!-- סקריפט לתפריט ניווט נייד -->
+<script>
+    function myFunction() {
+        var x = document.getElementById("myNav");
+        if (x.className === "w3-bar w3-red w3-card w3-left-align w3-large") {
+            x.className += " w3-show";
+        } else {
+            x.className = "w3-bar w3-red w3-card w3-left-align w3-large";
+        }
+    }
+</script>
+
+</body>
+</html>
