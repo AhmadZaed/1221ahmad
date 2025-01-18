@@ -136,3 +136,49 @@ def check_status():
 
 if _name_ == '_main_':
     app.run(debug=True)
+    from flask import Flask, request, render_template_string, redirect, url_for
+
+app = Flask(__name__)
+
+# Dummy user credentials for demonstration
+users = {
+    'user1': 'password123',
+    'admin': 'securepass'
+}
+
+# Route for the login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['uname']
+        password = request.form['psw']
+        if username in users and users[username] == password:
+            return f"Welcome, {username}!"
+        else:
+            return "Invalid credentials, please try again.", 401
+    return render_template_string(login_form)
+
+# Embedded form (optional for simple example)
+login_form = """
+<!DOCTYPE html>
+<html>
+<head><title>Login</title></head>
+<body>
+    <h2>Login Form</h2>
+    <form action="/login" method="post">
+        <div>
+            <label for="uname">Username</label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+        </div>
+        <div>
+            <label for="psw">Password</label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
+"""
+
+if __name__ == '__main__':
+    app.run(debug=True)

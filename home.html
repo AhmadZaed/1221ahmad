@@ -36,10 +36,102 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 <!-- Header -->
 <header class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">Beer 7 360</h1>
+  <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
   <p class="w3-xlarge"></p>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">sign up </button>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">sign in </button>
+  <form action="action_page.php" method="post">
+  <div class="imgcontainer">
+  </div>
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Modern Login Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, white, white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .loginbtn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .loginbtn:hover {
+            background: linear-gradient(to right, #feb47b, #ff7e5f);
+        }
+        .cancelbtn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .cancelbtn:hover {
+            background-color: #d32f2f;
+        }
+        .psw a {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <form action="action_page.php" method="post">
+        <div class="container">
+            <label for="uname">Username</label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+
+            <label for="psw">Password</label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit" class="loginbtn">Login</button>
+            <label>
+                
+            </label>
+        </div>
+
+        <div class="container" style="background-color:red;">
+            <button type="button" class="cancelbtn">not a member? sign up now</button>
+            <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+    </form>
+</body>
+</html>
+
 </header>
 
 <!-- First Grid -->
