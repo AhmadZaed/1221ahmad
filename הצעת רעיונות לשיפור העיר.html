@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <title>הצעת רעיונות לשיפור העיר</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f7f7f7, #ffffff);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: red;
+        }
+        .success-message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
+        .home-btn {
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function showSuccessMessage(event) {
+            event.preventDefault(); // מונע שליחה אמיתית לצורך הדגמה
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            document.getElementById('home-btn').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+
+<!-- Header -->
+<header class="w3-container w3-red w3-center" style="padding: 50px;">
+    <h1>הצעת רעיונות לשיפור העיר</h1>
+    <p>שתף את הרעיונות שלך כדי לשפר את איכות החיים בעיר שלנו</p>
+</header>
+
+<!-- Form Container -->
+<div class="w3-container container" id="form-container">
+    <form onsubmit="showSuccessMessage(event)">
+        <div class="form-group">
+            <label for="idea-title">כותרת הרעיון</label>
+            <input type="text" id="idea-title" name="idea-title" placeholder="הזן כותרת לרעיון שלך" required>
+        </div>
+        <div class="form-group">
+            <label for="description">תיאור הרעיון</label>
+            <textarea id="description" name="description" rows="6" placeholder="תאר את הרעיון שלך..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="name">שם מלא</label>
+            <input type="text" id="name" name="name" placeholder="הזן את שמך" required>
+        </div>
+        <div class="form-group">
+            <label for="email">דואר אלקטרוני</label>
+            <input type="text" id="email" name="email" placeholder="הזן כתובת דואר אלקטרוני">
+        </div>
+        <button type="submit" class="btn">שלח רעיון</button>
+    </form>
+</div>
+
+<!-- Success Message -->
+<div id="success-message" class="success-message">
+    הטופס נשלח בהצלחה! תודה על הרעיון שלך.
+</div>
+<div id="home-btn" class="home-btn">
+    <a href="home.html" class="w3-button w3-orange">חזרה לדף הבית</a>
+</div>
+
+</body>
+</html>

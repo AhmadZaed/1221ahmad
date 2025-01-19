@@ -182,3 +182,33 @@ login_form = """
 
 if __name__ == '__main__':
     app.run(debug=True)
+    from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
+def user_login(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"Welcome, {user.username}!")
+            return redirect('home')  # Replace 'home' with your homepage view name
+        else:
+            messages.error(request, "Invalid username or password")
+    return render(request, 'accounts/login.html')
+from django.urls import path
+from . import views
+
+app_name = 'accounts'
+
+urlpatterns = [
+    path('login/', views.user_login, name='login'),
+]
+from django.urls import include, path
+
+urlpatterns = [
+    path('accounts/', include('accounts.urls')),
+    # נתיבים נוספים לפרויקט
+]
