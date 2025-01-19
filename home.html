@@ -1,180 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-.fa-anchor,.fa-coffee {font-size:200px}
-</style>
-
-<div class="w3-top">
-    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-      <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-      <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-      <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-      <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-      <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-      <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-
-    </div>
-
-
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
-  </div>
-</div>
-
-<!-- Header -->
-<header class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
-  <p class="w3-xlarge"></p>
-  <form action="action_page.php" method="post">
-  <div class="imgcontainer">
-  </div>
-
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Modern Login Page</title>
+    <title>Beer 7 360 - Main Page</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+        .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+        .fa-anchor,.fa-coffee {font-size:200px}
+        
+        /* Add background image to the body */
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, white, white);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            background-image: url('https://example.com/your-image.jpg'); /* Replace with your image URL */
+            background-size: cover; /* Make sure the image covers the entire page */
+            background-position: center center; /* Center the image */
+            background-attachment: fixed; /* Make it fixed so it doesn't scroll */
+            color: white; /* Change text color to white to contrast with dark background */
         }
+        
         .container {
-            background-color: #ffffff;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for the form */
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        label {
-            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            margin: 0 auto;
+            text-align: center;
         }
         input[type="text"], input[type="password"] {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
+            padding: 15px;
+            margin: 12px 0;
             border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            border-radius: 25px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #ff7e5f;
+            background-color: #fff;
         }
         .loginbtn {
             width: 100%;
-            padding: 14px 20px;
+            padding: 16px;
             background: linear-gradient(to right, #ff7e5f, #feb47b);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
+            font-size: 18px;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
         .loginbtn:hover {
             background: linear-gradient(to right, #feb47b, #ff7e5f);
+            transform: scale(1.05);
         }
-        .logoutbtn {
-            width: 100%;
-            padding: 14px 20px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            color: black;
+        .rolebtn {
+            width: 48%;
+            padding: 16px;
+            background-color: #4CAF50;
+            color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 16px;
-            transition: background 0.3s;
+            margin-right: 4%;
+            transition: background 0.3s ease;
+        }
+        .rolebtn:hover {
+            background-color: #45a049;
         }
         .cancelbtn {
             background-color: #f44336;
             color: white;
-            padding: 10px;
+            padding: 14px;
             border: none;
             cursor: pointer;
             width: 100%;
-            border-radius: 4px;
-            margin-top: 10px;
+            border-radius: 30px;
+            margin-top: 20px;
+            font-size: 16px;
         }
         .cancelbtn:hover {
-            background-color: #d32f2f;
+            background-color: #e53935;
         }
-        .psw a {
-            color: white;
+        /* Hide the navbar initially */
+        #navbar {
+            display: none;
+        }
+        /* The overlay for login */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10; /* Make sure it's above all other content */
         }
     </style>
 </head>
 <body>
-    <form action="action_page.php" method="post">
-        <div class="container">
-            <label for="uname">Username</label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
 
-            <label for="psw">Password</label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-                        <button type="submit" class="loginbtn">Login</button>
-                        <button type="submit" class="loginbtn">Logout</button>
-            <label>
-                
-            </label>
-        </div>
-
-        <div class="container" style="background-color:red;">
-            <button type="button" class="cancelbtn">not a member? sign up now</button>
-            <span class="psw">Forgot <a href="#">password?</a></span>
-        </div>
-    </form>
-</body>
-</html>
-
-</header>
-
-<!-- First Grid -->
-<div class="w3-row-padding w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-twothird">
-      <h1>Welcome</h1>
-      <h5 class="w3-padding-32">in this website we desided to help people to share problems to solve it quickly.</h5>
-
-      <p class="w3-text-grey">The website provides a convenient platform for citizens to report issues they encounter in their communities, such as potholes, garbage accumulation, broken streetlights, and other street-related problems. By allowing users to easily upload photos along with descriptions of the issues, the site ensures that local authorities receive clear and visual reports, enabling them to take swift action. Whether it's a hazardous road condition, overflowing trash bins, or malfunctioning streetlights, users can submit their concerns quickly, helping to improve the safety and cleanliness of the streets. This initiative fosters greater civic engagement and supports the creation of cleaner, safer urban environments through collaboration between residents and local municipalities.</p>
+<!-- Navbar (Initially Hidden) -->
+<div id="navbar" class="w3-top">
+    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
     </div>
-
-    <div class="w3-third w3-center">
-      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
-    </div>
-  </div>
 </div>
 
+<!-- Main content section (Initially Hidden) -->
+<div id="main-content" class="w3-container" style="display:none;">
+    <header class="w3-container w3-red w3-center" style="padding:128px 16px">
+        <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
+        <p class="w3-xlarge">Helping residents and workers report and track issues efficiently.</p>
+    </header>
 
+    <!-- Welcome Section -->
+    <div class="w3-row-padding w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-twothird">
+                <h1>Welcome</h1>
+                <h5 class="w3-padding-32">This website allows citizens and workers to collaborate on fixing issues in the community.</h5>
+                <p class="w3-text-grey">The platform provides an easy way for users to report problems and issues, such as road hazards, broken streetlights, and more, helping local authorities address them quickly.</p>
+            </div>
+            <div class="w3-third w3-center">
+                <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Login Overlay -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="container">
+        <!-- Role selection buttons -->
+        <button class="rolebtn" onclick="showLoginForm('resident')">Login as Resident</button>
+        <button class="rolebtn" onclick="showLoginForm('worker')">Login as Worker</button>
+        
+        <!-- Resident login form -->
+        <form id="residentLoginForm" style="display:none;" onsubmit="handleLogin(event, 'resident')">
+            <label for="residentUsername">Username</label>
+            <input type="text" placeholder="Enter Username" name="residentUsername" required>
+            <label for="residentPassword">Password</label>
+            <input type="password" placeholder="Enter Password" name="residentPassword" required>
+            <button type="submit" class="loginbtn">Resident Login</button>
+        </form>
+
+        <!-- Worker login form -->
+        <form id="workerLoginForm" style="display:none;" onsubmit="handleLogin(event, 'worker')">
+            <label for="workerUsername">Username</label>
+            <input type="text" placeholder="Enter Username" name="workerUsername" required>
+            <label for="workerPassword">Password</label>
+            <input type="password" placeholder="Enter Password" name="workerPassword" required>
+            <button type="submit" class="loginbtn">Worker Login</button>
+        </form>
+    </div>
+</div>
 
 <script>
-// Used to toggle the menu on small screens when clicking on the menu button
-function myFunction() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
+    function showLoginForm(userType) {
+        // Hide both forms first
+        document.getElementById('residentLoginForm').style.display = 'none';
+        document.getElementById('workerLoginForm').style.display = 'none';
+
+        // Show the selected form
+        if (userType === 'resident') {
+            document.getElementById('residentLoginForm').style.display = 'block';
+        } else if (userType === 'worker') {
+            document.getElementById('workerLoginForm').style.display = 'block';
+        }
+    }
+
+    function handleLogin(event, userType) {
+        event.preventDefault(); // Prevent form submission
+
+        let successfulLogin = true;
+
+        if (successfulLogin) {
+            // Hide the login overlay
+            document.getElementById('loginOverlay').style.display = 'none';
+            
+            // Show the main content and navbar
+            document.getElementById('navbar').style.display = 'block';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            alert("Login failed. Please check your credentials.");
+        }
+    }
 </script>
 
 </body>
