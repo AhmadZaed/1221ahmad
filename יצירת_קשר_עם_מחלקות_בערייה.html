@@ -1,31 +1,5 @@
-<<!DOCTYPE html>
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>בחר מחלקה לפנייה</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body, h1, h2, h3, h4, h5, h6 {
-            font-family: "Lato", sans-serif;
-        }
-
-        .w3-bar, h1, button {
-            font-family: "Montserrat", sans-serif;
-        }
-
-        .fa-anchor, .fa-coffee {
-            font-size: 200px;
-        }
-    </style>
-</head>
-<body>
-
-<!-- תפריט ניווט -->
-<<div id="navbar" class="w3-top">
+<!DOCTYPE html>
+<div id="navbar" class="w3-top">
     <div class="w3-bar w3-red w3-card w3-left-align w3-large">
         <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
         <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
@@ -35,45 +9,138 @@
         <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
     </div>
 </div>
-
-<!-- הצגת מחלקות לפנייה -->
-<div class="w3-container" style="margin-top: 60px;">
-    <h1 class="w3-center">בחר מחלקה לפנייה</h1>
-    <p class="w3-center">בחר מחלקה על מנת להמשיך לפנייה או לקבל מידע נוסף</p>
-
-    <div class="w3-row">
-        <div class="w3-col s12 m4">
-            <a href="פנייה_מחלקת_חשמל.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת חשמל</a>
-        </div>
-        <div class="w3-col s12 m4">
-            <a href="פנייה_מחלקת_תחבורה.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת תחבורה</a>
-        </div>
-        <div class="w3-col s12 m4">
-            <a href="פנייה_מחלקת_מים.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת מים</a>
-        </div>
-        <div class="w3-col s12 m4">
-            <a href="פנייה_מחלקת_ספורט.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת ספורט</a>
-        </div>
-        <div class="w3-col s12 m4">
-            <a href="פנייה_מחלקת_נקיון.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת נקיון</a>
-        </div>
-        <div class="w3-col s12 m4">
-            <a href="פנייה_מחלקת_פתחון.html" class="w3-button w3-blue w3-block w3-padding-large">מחלקת פיתוח</a>
-        </div>
-    </div>
-</div>
-
-<!-- סקריפט לתפריט ניווט נייד -->
-<script>
-    function myFunction() {
-        var x = document.getElementById("myNav");
-        if (x.className === "w3-bar w3-red w3-card w3-left-align w3-large") {
-            x.className += " w3-show";
-        } else {
-            x.className = "w3-bar w3-red w3-card w3-left-align w3-large";
+<html lang="he">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחלקות ובעלי מקצוע</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-    }
-</script>
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .department-button {
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .department-button:hover {
+            background-color: #0056b3;
+        }
+        .department-button i {
+            margin-right: 10px;
+        }
+        .professional {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="w3-center">רשימת מחלקות ובעלי מקצוע</h1>
+        <p class="w3-center">בחר מחלקה כדי להציג את בעלי המקצוע שלה</p>
+        
+        <!-- כפתורים למחלקות עם אייקונים ותיאור -->
+        <button class="department-button" onclick="showProfessionals('electricity')">
+            <span><i class="fa fa-bolt"></i> מחלקת חשמל</span>
+            <small>אחראי על תשתיות חשמל</small>
+        </button>
+        <button class="department-button" onclick="showProfessionals('transport')">
+            <span><i class="fa fa-bus"></i> מחלקת תחבורה</span>
+            <small>אחראי על תחבורה ציבורית ותשתיות</small>
+        </button>
+        <button class="department-button" onclick="showProfessionals('water')">
+            <span><i class="fa fa-tint"></i> מחלקת מים</span>
+            <small>טיפול בתשתיות מים וביוב</small>
+        </button>
+        <button class="department-button" onclick="showProfessionals('sports')">
+            <span><i class="fa fa-futbol-o"></i> מחלקת ספורט</span>
+            <small>ניהול מתקני ספורט</small>
+        </button>
+        <button class="department-button" onclick="showProfessionals('cleaning')">
+            <span><i class="fa fa-trash"></i> מחלקת ניקיון</span>
+            <small>תחזוקה וניקיון העיר</small>
+        </button>
+        <button class="department-button" onclick="showProfessionals('development')">
+            <span><i class="fa fa-building"></i> מחלקת פיתוח</span>
+            <small>פרויקטים ותשתיות חדשות</small>
+        </button>
+        
+        <!-- אזור להצגת בעלי מקצוע -->
+        <div id="professionals-list"></div>
+    </div>
 
+    <script>
+        // נתונים של בעלי המקצוע לפי מחלקה
+        const departments = {
+            electricity: [
+                { name: "יוסי כהן", phone: "050-1234567", email: "yossi@example.com" },
+                { name: "דנה לוי", phone: "052-9876543", email: "dana@example.com" }
+            ],
+            transport: [
+                { name: "מיכאל ברק", phone: "050-7654321", email: "michael@example.com" },
+                { name: "עדי שמעון", phone: "053-5671234", email: "adi@example.com" }
+            ],
+            water: [
+                { name: "גיא צור", phone: "050-4567890", email: "guy@example.com" },
+                { name: "מאיה סולומון", phone: "052-1239876", email: "maya@example.com" }
+            ],
+            sports: [
+                { name: "רון כהן", phone: "051-2345678", email: "ron@example.com" },
+                { name: "אלונה רז", phone: "054-9871234", email: "alona@example.com" }
+            ],
+            cleaning: [
+                { name: "תמר מזרחי", phone: "055-1234567", email: "tamar@example.com" },
+                { name: "יואל שמש", phone: "057-6543210", email: "yoel@example.com" }
+            ],
+            development: [
+                { name: "דוד ישראלי", phone: "058-1237894", email: "david@example.com" },
+                { name: "נועה עמית", phone: "056-9873214", email: "noa@example.com" }
+            ]
+        };
+
+        // פונקציה להצגת בעלי המקצוע
+        function showProfessionals(department) {
+            const professionalsList = document.getElementById("professionals-list");
+            professionalsList.innerHTML = ""; // מנקה את האזור להצגת המידע
+            
+            // בדיקה אם יש נתונים למחלקה
+            if (departments[department]) {
+                departments[department].forEach(professional => {
+                    // יצירת תיבת מידע על בעל מקצוע
+                    const professionalDiv = document.createElement("div");
+                    professionalDiv.className = "professional";
+                    professionalDiv.innerHTML = `
+                        <p><strong>שם:</strong> ${professional.name}</p>
+                        <p><strong>טלפון:</strong> ${professional.phone}</p>
+                        <p><strong>דוא"ל:</strong> <a href="mailto:${professional.email}">${professional.email}</a></p>
+                    `;
+                    professionalsList.appendChild(professionalDiv);
+                });
+            } else {
+                professionalsList.innerHTML = `<p>לא נמצאו נתונים למחלקה זו.</p>`;
+            }
+        }
+    </script>
 </body>
 </html>
