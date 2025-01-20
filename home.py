@@ -230,3 +230,17 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('logout/', views.logout_view, name='logout'),
 ]
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Redirect to the login view after logout
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.login_view, name='login'),  # Main login page
+    path('logout/', views.logout_view, name='logout'),  # Logout route
+    path('home/', views.home_view, name='home'),  # Example for main content
+]

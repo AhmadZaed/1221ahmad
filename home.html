@@ -16,7 +16,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #ffffff, #ff4d4d);
+            background: linear-gradient(135deg,white, #ff4d4d);
             color: black;
             display: flex;
             justify-content: center;
@@ -81,7 +81,7 @@
             transform: scale(1.05);
         }
 
-        .rolebtn-resident {background-color: #ffffff; color: #ff4d4d;}
+        .rolebtn-resident {background-color: #ff4d4d; color: white;}
         .rolebtn-worker {background-color: #ff4d4d; color: white;}
 
         .rolebtn-resident:hover {background-color: #f2f2f2;}
@@ -118,7 +118,7 @@
             <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
             <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
             <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn">Logout</a>
+            <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-right logoutbtn">Logout</a>
         </div>
     </div>
 
