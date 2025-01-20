@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <div id="navbar" class="w3-top">
-  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-      <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-      <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-      <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-      <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-      <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-      <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-  </div>
+    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+    </div>
 </div>
-<html lang="he" dir="rtl">
+<html lang="he">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>טופס דיווח על מפגע</title>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -23,7 +21,6 @@
       margin: 0;
       padding: 0;
     }
-
     .form-container {
       max-width: 600px;
       margin: 30px auto;
@@ -32,12 +29,10 @@
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
     .form-container h2 {
       text-align: center;
       color: #333;
     }
-
     textarea {
       width: 100%;
       resize: none;
@@ -46,7 +41,6 @@
       padding: 10px;
       font-size: 16px;
     }
-
     #map {
       width: 100%;
       height: 300px;
@@ -54,13 +48,11 @@
       margin: 15px 0;
       border-radius: 4px;
     }
-
     input[type="file"] {
       display: block;
       margin: 15px 0;
       font-size: 16px;
     }
-
     .submit-btn {
       display: block;
       width: 100%;
@@ -72,9 +64,23 @@
       border-radius: 4px;
       cursor: pointer;
     }
-
     .submit-btn:hover {
       background-color: #45a049;
+    }
+    .home-btn {
+      display: block;
+      width: 100%;
+      background-color: #f44336;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .home-btn:hover {
+      background-color: #d32f2f;
     }
   </style>
 </head>
@@ -101,27 +107,7 @@
       <!-- כפתור שליחה -->
       <button type="submit" class="submit-btn">שלח דיווח</button>
       <!-- כפתור חזרה לדף הבית -->
-<a href="home.html" class="home-btn">חזרה לדף הבית</a>
-<style>
-  .home-btn {
-    display: block;
-    width: 100%;
-    background-color: #f44336;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-
-  .home-btn:hover {
-    background-color: #d32f2f;
-  }
-</style>
-
-
+      <a href="home.html" class="home-btn">חזרה לדף הבית</a>
     </form>
   </div>
 
@@ -173,10 +159,21 @@
         return;
       }
 
-      alert(`דיווח נשלח בהצלחה! \nתיאור: ${description} \nמיקום: ${latitude}, ${longitude} \nתמונה: ${file.name}`);
+      // Save the report in localStorage
+      const report = {
+        description,
+        latitude,
+        longitude,
+        image: file.name,
+      };
+
+      let reports = JSON.parse(localStorage.getItem('reports')) || [];
+      reports.push(report);
+      localStorage.setItem('reports', JSON.stringify(reports));
+
+      alert(`דיווח נשלח בהצלחה!`);
+      window.location.href = 'track_reports.html'; // Redirect to Track Reports page
     });
-    
   </script>
-  
 </body>
 </html>
