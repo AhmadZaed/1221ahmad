@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<div id="navbar" class="w3-top">
-    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-    </div>
-</div>
 <html lang="he">
 <head>
   <title>טופס דיווח על מפגע</title>
@@ -85,6 +75,17 @@
   </style>
 </head>
 <body>
+  <div id="navbar" class="w3-top">
+    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+    </div>
+  </div>
+
   <div class="form-container w3-card">
     <h2>טופס דיווח על מפגע</h2>
     <form id="report-form">
@@ -159,14 +160,16 @@
         return;
       }
 
-      // Save the report in localStorage
+      // יצירת הדיווח עם סטטוס "ממתין"
       const report = {
         description,
         latitude,
         longitude,
         image: file.name,
+        status: 'ממתין',  // הוספת סטטוס "ממתין"
       };
 
+      // שמירה ב-localStorage
       let reports = JSON.parse(localStorage.getItem('reports')) || [];
       reports.push(report);
       localStorage.setItem('reports', JSON.stringify(reports));
