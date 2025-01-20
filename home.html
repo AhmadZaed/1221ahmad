@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Beer 7 360 - Main Page</title>
+    <title>Beer 7 360 - Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -12,196 +12,162 @@
         body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
         .fa-anchor,.fa-coffee {font-size:200px}
-        
-        /* Add background image to the body */
+
         body {
-            background-image: url('https://example.com/your-image.jpg'); /* Replace with your image URL */
-            background-size: cover; /* Make sure the image covers the entire page */
-            background-position: center center; /* Center the image */
-            background-attachment: fixed; /* Make it fixed so it doesn't scroll */
-            color: white; /* Change text color to white to contrast with dark background */
-        }
-        
-        .container {
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for the form */
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            width: 350px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 15px;
-            margin: 12px 0;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            transition: 0.3s ease;
-        }
-        input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #ff7e5f;
-            background-color: #fff;
-        }
-        .loginbtn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-        .loginbtn:hover {
-            background: linear-gradient(to right, #feb47b, #ff7e5f);
-            transform: scale(1.05);
-        }
-        .rolebtn {
-            width: 48%;
-            padding: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-right: 4%;
-            transition: background 0.3s ease;
-        }
-        .rolebtn:hover {
-            background-color: #45a049;
-        }
-        .cancelbtn {
-            background-color: #f44336;
-            color: white;
-            padding: 14px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            border-radius: 30px;
-            margin-top: 20px;
-            font-size: 16px;
-        }
-        .cancelbtn:hover {
-            background-color: #e53935;
-        }
-        /* Hide the navbar initially */
-        #navbar {
-            display: none;
-        }
-        /* The overlay for login */
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffffff, #ff4d4d);
+            color: black;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10; /* Make sure it's above all other content */
+            height: 100vh;
+            overflow: hidden;
         }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .loginbtn {
+            width: 100%;
+            padding: 14px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .loginbtn:hover {
+            background-color: #e63939;
+        }
+
+        .role-selection button {
+            width: 48%;
+            padding: 10px;
+            margin: 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .role-selection button:hover {
+            transform: scale(1.05);
+        }
+
+        .rolebtn-resident {background-color: #ffffff; color: #ff4d4d;}
+        .rolebtn-worker {background-color: #ff4d4d; color: white;}
+
+        .rolebtn-resident:hover {background-color: #f2f2f2;}
+        .rolebtn-worker:hover {background-color: #e63939;}
     </style>
 </head>
 <body>
+    <div id="loginOverlay" class="container">
+        <h2>ברוכים הבאים ל-Beer 7 360</h2>
+        <div class="role-selection">
+            <button class="rolebtn-resident" onclick="showLoginForm('resident')">התחבר כתושב</button>
+            <button class="rolebtn-worker" onclick="showLoginForm('worker')">התחבר כעובד</button>
+        </div>
 
-<!-- Navbar (Initially Hidden) -->
-<div id="navbar" class="w3-top">
-    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+        <form id="residentLoginForm" style="display:none;" onsubmit="handleLogin(event, 'resident')">
+            <input type="text" placeholder="שם משתמש" name="residentUsername" required>
+            <input type="password" placeholder="סיסמה" name="residentPassword" required>
+            <button type="submit" class="loginbtn">התחבר כתושב</button>
+        </form>
+
+        <form id="workerLoginForm" style="display:none;" onsubmit="handleLogin(event, 'worker')">
+            <input type="text" placeholder="שם משתמש" name="workerUsername" required>
+            <input type="password" placeholder="סיסמה" name="workerPassword" required>
+            <button type="submit" class="loginbtn">התחבר כעובד</button>
+        </form>
     </div>
-</div>
 
-<!-- Main content section (Initially Hidden) -->
-<div id="main-content" class="w3-container" style="display:none;">
-    <header class="w3-container w3-red w3-center" style="padding:128px 16px">
-        <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
-        <p class="w3-xlarge">Helping residents and workers report and track issues efficiently.</p>
-    </header>
+    <!-- Navbar -->
+    <div id="navbar" class="w3-top" style="display:none;">
+        <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+            <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+            <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+            <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+            <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+            <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+            <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn">Logout</a>
+        </div>
+    </div>
 
-    <!-- Welcome Section -->
-    <div class="w3-row-padding w3-padding-64 w3-container">
-        <div class="w3-content">
-            <div class="w3-twothird">
-                <h1>Welcome</h1>
-                <h5 class="w3-padding-32">This website allows citizens and workers to collaborate on fixing issues in the community.</h5>
-                <p class="w3-text-grey">The platform provides an easy way for users to report problems and issues, such as road hazards, broken streetlights, and more, helping local authorities address them quickly.</p>
-            </div>
-            <div class="w3-third w3-center">
-                <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+    <!-- Main content -->
+    <div id="main-content" class="w3-container" style="display:none;">
+        <header class="w3-container w3-red w3-center" style="padding:128px 16px">
+            <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
+            <p class="w3-xlarge">Helping residents and workers report and track issues efficiently.</p>
+        </header>
+
+        <div class="w3-row-padding w3-padding-64 w3-container">
+            <div class="w3-content">
+                <div class="w3-twothird">
+                    <h1>Welcome</h1>
+                    <h5 class="w3-padding-32">This website allows citizens and workers to collaborate on fixing issues in the community.</h5>
+                    <p class="w3-text-grey">The platform provides an easy way for users to report problems and issues, such as road hazards, broken streetlights, and more, helping local authorities address them quickly.</p>
+                </div>
+                <div class="w3-third w3-center">
+                    <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Login Overlay -->
-<div class="login-overlay" id="loginOverlay">
-    <div class="container">
-        <!-- Role selection buttons -->
-        <button class="rolebtn" onclick="showLoginForm('resident')">Login as Resident</button>
-        <button class="rolebtn" onclick="showLoginForm('worker')">Login as Worker</button>
-        
-        <!-- Resident login form -->
-        <form id="residentLoginForm" style="display:none;" onsubmit="handleLogin(event, 'resident')">
-            <label for="residentUsername">Username</label>
-            <input type="text" placeholder="Enter Username" name="residentUsername" required>
-            <label for="residentPassword">Password</label>
-            <input type="password" placeholder="Enter Password" name="residentPassword" required>
-            <button type="submit" class="loginbtn">Resident Login</button>
-        </form>
+    <script>
+        function showLoginForm(userType) {
+            document.getElementById('residentLoginForm').style.display = 'none';
+            document.getElementById('workerLoginForm').style.display = 'none';
 
-        <!-- Worker login form -->
-        <form id="workerLoginForm" style="display:none;" onsubmit="handleLogin(event, 'worker')">
-            <label for="workerUsername">Username</label>
-            <input type="text" placeholder="Enter Username" name="workerUsername" required>
-            <label for="workerPassword">Password</label>
-            <input type="password" placeholder="Enter Password" name="workerPassword" required>
-            <button type="submit" class="loginbtn">Worker Login</button>
-        </form>
-    </div>
-</div>
-
-<script>
-    function showLoginForm(userType) {
-        // Hide both forms first
-        document.getElementById('residentLoginForm').style.display = 'none';
-        document.getElementById('workerLoginForm').style.display = 'none';
-
-        // Show the selected form
-        if (userType === 'resident') {
-            document.getElementById('residentLoginForm').style.display = 'block';
-        } else if (userType === 'worker') {
-            document.getElementById('workerLoginForm').style.display = 'block';
+            if (userType === 'resident') {
+                document.getElementById('residentLoginForm').style.display = 'block';
+            } else if (userType === 'worker') {
+                document.getElementById('workerLoginForm').style.display = 'block';
+            }
         }
-    }
 
-    function handleLogin(event, userType) {
-        event.preventDefault(); // Prevent form submission
+        function handleLogin(event, userType) {
+            event.preventDefault();
 
-        let successfulLogin = true;
+            let successfulLogin = true;
 
-        if (successfulLogin) {
-            // Hide the login overlay
-            document.getElementById('loginOverlay').style.display = 'none';
-            
-            // Show the main content and navbar
-            document.getElementById('navbar').style.display = 'block';
-            document.getElementById('main-content').style.display = 'block';
-        } else {
-            alert("Login failed. Please check your credentials.");
+            if (successfulLogin) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('navbar').style.display = 'block';
+                document.getElementById('main-content').style.display = 'block';
+            } else {
+                alert("Login failed. Please check your credentials.");
+            }
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>

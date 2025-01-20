@@ -212,3 +212,21 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     # נתיבים נוספים לפרויקט
 ]
+from django.shortcuts import redirect, render
+from django.contrib.auth import logout
+
+def home(request):
+    if request.user.is_authenticated:
+        return render(request, 'home.html')  # Replace with your main page template
+    return redirect('login')  # Redirect to login page if not authenticated
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Replace 'login' with the name of your login view or URL
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('logout/', views.logout_view, name='logout'),
+]
