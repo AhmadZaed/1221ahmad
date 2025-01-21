@@ -1,20 +1,9 @@
 <!DOCTYPE html>
-<div id="navbar" class="w3-top">
-    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-    </div>
-</div>
 <html lang="he">
 <head>
-    <title>הצעת רעיונות לשיפור העיר</title>
     <meta charset="UTF-8">
+    <title>מערכת רעיונות ופידבק</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         body {
@@ -23,12 +12,21 @@
             margin: 0;
             padding: 0;
         }
+        header {
+            padding: 50px;
+            text-align: center;
+            background: #ff4d4d;
+            color: white;
+        }
+        header h1, header h2 {
+            margin: 0;
+        }
         .container {
             max-width: 800px;
-            margin: auto;
+            margin: 30px auto;
             padding: 20px;
             background-color: #ffffff;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .form-group {
@@ -39,59 +37,61 @@
             display: block;
             margin-bottom: 8px;
         }
-        input[type="text"], textarea {
+        input[type="text"], input[type="email"], textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 8px;
             box-sizing: border-box;
         }
         .btn {
-            background-color: #4CAF50;
+            background: linear-gradient(to right, #4CAF50, #45a049);
             color: white;
-            padding: 14px 20px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            width: 100%;
             font-size: 16px;
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+            transition: background 0.3s ease-in-out, transform 0.2s;
         }
         .btn:hover {
-            background-color: red;
+            background: linear-gradient(to right, #45a049, #4CAF50);
+            transform: scale(1.05);
         }
         .success-message {
             display: none;
             text-align: center;
             margin-top: 20px;
-            color: green;
-            font-weight: bold;
-        }
-        .home-btn {
-            margin-top: 20px;
-            display: none;
-            text-align: center;
+            padding: 10px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+            border-radius: 8px;
         }
     </style>
     <script>
         function showSuccessMessage(event) {
             event.preventDefault(); // מונע שליחה אמיתית לצורך הדגמה
-            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('feedback-form').style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
-            document.getElementById('home-btn').style.display = 'block';
         }
     </script>
 </head>
 <body>
 
 <!-- Header -->
-<header class="w3-container w3-red w3-center" style="padding: 50px;">
-    <h1>הצעת רעיונות לשיפור העיר</h1>
-    <p>שתף את הרעיונות שלך כדי לשפר את איכות החיים בעיר שלנו</p>
+<header>
+    <h1>מערכת רעיונות ופידבק</h1>
+    <p>שתף את הרעיונות שלך ואת המשוב שלך לשיפור העיר</p>
 </header>
 
-<!-- Form Container -->
-<div class="w3-container container" id="form-container">
-    <form onsubmit="showSuccessMessage(event)">
+<!-- Form Container for Ideas -->
+<div class="container">
+    <h2>הצעת רעיונות לשיפור העיר</h2>
+    <form>
         <div class="form-group">
             <label for="idea-title">כותרת הרעיון</label>
             <input type="text" id="idea-title" name="idea-title" placeholder="הזן כותרת לרעיון שלך" required>
@@ -112,13 +112,44 @@
     </form>
 </div>
 
-<!-- Success Message -->
-<div id="success-message" class="success-message">
-    הטופס נשלח בהצלחה! תודה על הרעיון שלך.
-</div>
-<div id="home-btn" class="home-btn">
-    <a href="home.html" class="w3-button w3-orange">חזרה לדף הבית</a>
+<!-- Feedback Section -->
+<div class="container feedback-section">
+    <header>
+        <h2>שליחת פידבק לתושבים</h2>
+    </header>
+
+    <!-- הודעת אישור -->
+    <div id="success-message" class="success-message">
+        הפידבק נשלח בהצלחה! תודה על שיתוף הפעולה.
+    </div>
+
+    <!-- Feedback Form -->
+    <form method="post" id="feedback-form" onsubmit="showSuccessMessage(event)">
+        <div style="display: none;">
+            {% csrf_token %}
+        </div>
+        <div class="form-group">
+            <label for="resident-name">שם התושב</label>
+            <input type="text" id="resident-name" name="resident-name" placeholder="הכנס את שם התושב" required>
+        </div>
+        <div class="form-group">
+            <label for="email">דואר אלקטרוני</label>
+            <input type="email" id="email" name="email" placeholder="כתובת דוא"ל" required>
+        </div>
+        <div class="form-group">
+            <label for="subject">נושא הפידבק</label>
+            <input type="text" id="subject" name="subject" placeholder="נושא הפידבק" required>
+        </div>
+        <div class="form-group">
+            <label for="content">תוכן הפידבק</label>
+            <textarea id="content" name="content" rows="5" placeholder="תאר את הפידבק שלך..." required></textarea>
+        </div>
+        <button type="submit" class="btn">שלח פידבק</button>
+    </form>
 </div>
 
 </body>
 </html>
+
+
+
