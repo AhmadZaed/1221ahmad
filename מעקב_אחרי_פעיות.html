@@ -17,153 +17,126 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .container h2 {
-      text-align: center;
-      color: #333;
-    }
-    .status-btn {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
-    .status-btn:hover {
-      background-color: #45a049;
-    }
-    .report-item {
-      border-bottom: 1px solid #ddd;
-      padding: 15px 0;
-    }
-    .report-actions button {
-      margin: 5px;
-    }
-    .in-progress-btn {
-      background-color: #3f51b5;
-      color: white;
-    }
-    .in-progress-btn:hover {
-      background-color: #303f9f;
-    }
-    .resolved-btn {
-      background-color: #4CAF50;
-      color: white;
-    }
-    .resolved-btn:hover {
-      background-color: #45a049;
-    }
-    .delete-btn {
-      background-color: #f44336;
-      color: white;
-    }
-    .delete-btn:hover {
-      background-color: #d32f2f;
-    }
-    .priority-label {
-      font-weight: bold;
-    }
-    .priority-select {
-      margin-top: 10px;
-    }
-  </style>
+ body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .status-btn {
+            margin: 5px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .status-btn:hover {
+            background-color: #45a049;
+        }
+        .report-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+        .report-actions button {
+            margin: 5px;
+        }
+        .priority {
+            font-weight: bold;
+            color: #ff5722;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>מעקב אחרי פעילות</h2>
+    <div class="container">
+        <h2>מעקב אחרי פעולות</h2>
+        <div id="reports-list"></div>
+    </div>
 
-    <!-- כפתור המאפשר לבחור את הסטטוס -->
-    <button class="status-btn" onclick="filterReports('ממתין')">הצג ממתינים</button>
-    <button class="status-btn" onclick="filterReports('בטיפול')">הצג בטיפול</button>
-    <button class="status-btn" onclick="filterReports('טופל')">הצג טופלים</button>
+    <script>
+        const reportsList = document.getElementById('reports-list');
+        let reports = JSON.parse(localStorage.getItem('reports')) || [
+            { description: 'דוח 1', status: 'ממתין', priority: 1 },
+            { description: 'דוח 2', status: 'בטיפול', priority: 2 },
+            { description: 'דוח 3', status: 'טופל', priority: 3 }
+        ];
 
-    <!-- כאן יוצגו הדיווחים -->
-    <div id="reports-list"></div>
-  </div>
+        function renderReports() {
+            reportsList.innerHTML = '';
+            if (reports.length === 0) {
+                reportsList.innerHTML = `<p>אין דוחות להצגה.</p>`;
+                return;
+            }
+            reports.forEach((report, index) => {
+                const reportItem = document.createElement('div');
+                reportItem.className = 'report-item';
+                reportItem.innerHTML = `
+                    <h3>תיאור: ${report.description}</h3>
+                    <p>סטטוס נוכחי: ${report.status}</p>
+                    <p>עדיפות: <span class="priority">${getPriorityText(report.priority)}</span></p>
+                    <div class="report-actions">
+                        <button onclick="updateStatus(${index}, 'בטיפול')">בטיפול</button>
+                        <button onclick="updateStatus(${index}, 'טופל')">טופל</button>
+                        <button onclick="setPriority(${index}, 1)">עדיפות גבוהה</button>
+                        <button onclick="setPriority(${index}, 2)">עדיפות בינונית</button>
+                        <button onclick="setPriority(${index}, 3)">עדיפות נמוכה</button>
+                        <button onclick="deleteReport(${index})" style="background-color: red; color: white;">מחק דוח</button>
+                    </div>
+                `;
+                reportsList.appendChild(reportItem);
+            });
+        }
 
-  <script>
-    const reportsList = document.getElementById('reports-list');
-    let reports = JSON.parse(localStorage.getItem('reports')) || [];
+        function updateStatus(index, newStatus) {
+            reports[index].status = newStatus;
+            saveReports();
+            renderReports();
+        }
 
-    function filterReports(status) {
-      // סינון הדיווחים לפי הסטטוס
-      const filteredReports = reports.filter(report => report.status === status);
+        function setPriority(index, priority) {
+            reports[index].priority = priority;
+            saveReports();
+            renderReports();
+        }
 
-      // הצגת הדיווחים המסוננים
-      if (filteredReports.length === 0) {
-        reportsList.innerHTML = `<p>לא נמצאו דיווחים עם סטטוס ${status}.</p>`;
-      } else {
-        reportsList.innerHTML = ''; // ריקון התצוגה הקודמת
-        filteredReports.forEach((report, index) => {
-          const reportItem = document.createElement('div');
-          reportItem.className = 'report-item';
-          reportItem.innerHTML = `
-            <h3>תיאור המפגע: ${report.description}</h3>
-            <p><strong>מיקום:</strong> ${report.latitude}, ${report.longitude}</p>
-            <p><strong>תמונה:</strong> ${report.image}</p>
-            <div class="report-actions">
-              <button class="delete-btn" onclick="deleteReport(${index})">מחק</button>
-              <button class="in-progress-btn" onclick="setInProgress(${index})">בטיפול</button>
-              <button class="resolved-btn" onclick="setResolved(${index})">טופל</button>
-              <label class="priority-label">רמת עדיפות:</label>
-              <select class="priority-select" onchange="setPriority(${index}, this.value)">
-                <option value="1" ${report.priority == 1 ? 'selected' : ''}>גבוהה</option>
-                <option value="2" ${report.priority == 2 ? 'selected' : ''}>בינונית</option>
-                <option value="3" ${report.priority == 3 ? 'selected' : ''}>נמוכה</option>
-              </select>
-            </div>
-          `;
-          reportsList.appendChild(reportItem);
-        });
-      }
-    }
+        function deleteReport(index) {
+            if (confirm('האם אתה בטוח שברצונך למחוק את הדוח?')) {
+                reports.splice(index, 1);
+                saveReports();
+                renderReports();
+            }
+        }
 
-    // הצגת כל הדיווחים בעת הכניסה לדף (ברירת מחדל הצגת "ממתין")
-    filterReports('ממתין');
+        function getPriorityText(priority) {
+            switch (priority) {
+                case 1:
+                    return 'גבוהה';
+                case 2:
+                    return 'בינונית';
+                case 3:
+                    return 'נמוכה';
+                default:
+                    return 'לא הוגדרה';
+            }
+        }
 
-    function setInProgress(index) {
-      const report = reports[index];
-      report.status = 'בטיפול'; // העברת הדוח לסטטוס "בטיפול"
-      localStorage.setItem('reports', JSON.stringify(reports));
-      location.reload();
-    }
+        function saveReports() {
+            localStorage.setItem('reports', JSON.stringify(reports));
+        }
 
-    function setResolved(index) {
-      const report = reports[index];
-      report.status = 'טופל'; // עדכון הסטטוס ל"טופל"
-      localStorage.setItem('reports', JSON.stringify(reports));
-      location.reload();
-    }
-
-    function setPriority(index, priority) {
-      reports[index].priority = priority; // עדכון רמת העדיפות
-      localStorage.setItem('reports', JSON.stringify(reports));
-    }
-
-    function deleteReport(index) {
-      const confirmation = confirm('האם אתה בטוח שברצונך למחוק את הדיווח?');
-      if (confirmation) {
-        reports.splice(index, 1); // מחיקת הדוח
-        localStorage.setItem('reports', JSON.stringify(reports));
-        location.reload();
-      }
-    }
-  </script>
+        renderReports();
+    </script>
 </body>
 </html>
