@@ -59,7 +59,7 @@
         <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
         <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
         <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-    </div>
+        <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>    
 </div>
 
 <div class="container">
@@ -172,5 +172,25 @@
     displayReportsInTable();
 </script>
 
+</body>
+</html>
+<script>
+    function dganjoLogout() {
+        // איפוס נתוני הסשן עם דגש על יציאה בשיקול דעת
+        alert("התנתקת בהצלחה עם דג'אנג'ו!");
+        // הצגת מסך הכניסה
+        document.getElementById('loginOverlay').style.display = 'block';
+        document.getElementById('navbar').style.display = 'none';
+        document.getElementById('main-content').style.display = 'none';
+    }
+
+// פונקציית Logout
+function dganjoLogout() {
+  localStorage.clear();
+  sessionStorage.clear();
+  alert("התנתקת בהצלחה!");
+  window.location.href = 'home.html'; // מעבר לדף הבית
+}
+</script>
 </body>
 </html>

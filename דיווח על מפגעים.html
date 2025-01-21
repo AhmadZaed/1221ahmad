@@ -83,7 +83,7 @@
         <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
         <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
         <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-    </div>
+        <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>    
   </div>
 
   <div class="form-container w3-card">
@@ -117,22 +117,18 @@
     // יצירת מפה אינטראקטיבית
     const map = L.map('map').setView([31.0461, 34.8516], 13); // מרכז על ישראל
 
-    // טעינת שכבת מפה
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // סיכה ניתנת להזזה
     let marker = L.marker([31.0461, 34.8516], { draggable: true }).addTo(map);
 
-    // עדכון קואורדינטות בעת הזזת הסיכה
     marker.on('dragend', function (e) {
       const position = marker.getLatLng();
       document.getElementById('latitude').value = position.lat;
       document.getElementById('longitude').value = position.lng;
     });
 
-    // עדכון קואורדינטות בעת טעינת המפה
     map.on('click', function (e) {
       const { lat, lng } = e.latlng;
       marker.setLatLng([lat, lng]);
@@ -140,7 +136,6 @@
       document.getElementById('longitude').value = lng;
     });
 
-    // שליחת הטופס
     document.getElementById('report-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -160,23 +155,29 @@
         return;
       }
 
-      // יצירת הדיווח עם סטטוס "ממתין"
       const report = {
         description,
         latitude,
         longitude,
         image: file.name,
-        status: 'ממתין',  // הוספת סטטוס "ממתין"
+        status: 'ממתין', 
       };
 
-      // שמירה ב-localStorage
       let reports = JSON.parse(localStorage.getItem('reports')) || [];
       reports.push(report);
       localStorage.setItem('reports', JSON.stringify(reports));
 
       alert(`דיווח נשלח בהצלחה!`);
-      window.location.href = 'track_reports.html'; // Redirect to Track Reports page
+      window.location.href = 'track_reports.html';
     });
+
+    // פונקציית Logout
+    function dganjoLogout() {
+      localStorage.clear();
+      sessionStorage.clear();
+      alert("התנתקת בהצלחה!");
+      window.location.href = 'home.html'; // מעבר לדף הבית
+    }
   </script>
 </body>
 </html>

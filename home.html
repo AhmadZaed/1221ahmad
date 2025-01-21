@@ -81,11 +81,17 @@
             transform: scale(1.05);
         }
 
-        .rolebtn-resident {background-color: #ff4d4d; color: white;}
-        .rolebtn-worker {background-color: #ff4d4d; color: white;}
+        .rolebtn-resident, .rolebtn-worker, .rolebtn-admin {
+            background-color: #ff4d4d; 
+            color: white;
+        }
 
-        .rolebtn-resident:hover {background-color: #f2f2f2;}
-        .rolebtn-worker:hover {background-color: #e63939;}
+        .rolebtn-resident:hover, .rolebtn-admin:hover {
+            background-color: #f2f2f2;
+        }
+        .rolebtn-worker:hover {
+            background-color: #e63939;
+        }
     </style>
 </head>
 <body>
@@ -94,6 +100,7 @@
         <div class="role-selection">
             <button class="rolebtn-resident" onclick="showLoginForm('resident')">התחבר כתושב</button>
             <button class="rolebtn-worker" onclick="showLoginForm('worker')">התחבר כעובד</button>
+            <button class="rolebtn-admin" onclick="showLoginForm('admin')">התחבר כמנהל</button>
         </div>
 
         <form id="residentLoginForm" style="display:none;" onsubmit="handleLogin(event, 'resident')">
@@ -107,6 +114,12 @@
             <input type="password" placeholder="סיסמה" name="workerPassword" required>
             <button type="submit" class="loginbtn">התחבר כעובד</button>
         </form>
+
+        <form id="adminLoginForm" style="display:none;" onsubmit="handleLogin(event, 'admin')">
+            <input type="text" placeholder="שם משתמש" name="adminUsername" required>
+            <input type="password" placeholder="סיסמה" name="adminPassword" required>
+            <button type="submit" class="loginbtn">התחבר כמנהל</button>
+        </form>
     </div>
 
     <!-- Navbar -->
@@ -118,17 +131,15 @@
             <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
             <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
             <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-            <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-right logoutbtn">Logout</a>
-        </div>
+            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>        
     </div>
 
     <!-- Main content -->
     <div id="main-content" class="w3-container" style="display:none;">
         <header class="w3-container w3-red w3-center" style="padding:128px 16px">
             <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
-            <p class="w3-xlarge">Helping residents and workers report and track issues efficiently.</p>
+            <p class="w3-xlarge">Helping residents, workers, and admins manage issues efficiently.</p>
         </header>
-
         <div class="w3-row-padding w3-padding-64 w3-container">
             <div class="w3-content">
                 <div class="w3-twothird">
@@ -142,16 +153,20 @@
             </div>
         </div>
     </div>
+       
 
     <script>
         function showLoginForm(userType) {
             document.getElementById('residentLoginForm').style.display = 'none';
             document.getElementById('workerLoginForm').style.display = 'none';
+            document.getElementById('adminLoginForm').style.display = 'none';
 
             if (userType === 'resident') {
                 document.getElementById('residentLoginForm').style.display = 'block';
             } else if (userType === 'worker') {
                 document.getElementById('workerLoginForm').style.display = 'block';
+            } else if (userType === 'admin') {
+                document.getElementById('adminLoginForm').style.display = 'block';
             }
         }
 
@@ -164,6 +179,10 @@
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('navbar').style.display = 'block';
                 document.getElementById('main-content').style.display = 'block';
+
+                if (userType === 'admin') {
+                    document.getElementById('admin-content').style.display = 'block';
+                }
             } else {
                 alert("Login failed. Please check your credentials.");
             }
@@ -171,3 +190,14 @@
     </script>
 </body>
 </html>
+<script>
+    function dganjoLogout() {
+        // איפוס נתוני הסשן עם דגש על יציאה בשיקול דעת
+        alert("התנתקת בהצלחה עם דג'אנג'ו!");
+        // הצגת מסך הכניסה
+        document.getElementById('loginOverlay').style.display = 'block';
+        document.getElementById('navbar').style.display = 'none';
+        document.getElementById('main-content').style.display = 'none';
+    }
+</script>
+
