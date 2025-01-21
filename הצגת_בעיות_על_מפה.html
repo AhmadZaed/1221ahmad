@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>הצגת בעיות על מפה</title>
+    <title>מעקב אחרי פעיות ומפה</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <style>
-           body {
+        body, h1, h2, h3, h4, h5, h6 { font-family: "Lato", sans-serif; }
+        .w3-bar, h1, button { font-family: "Montserrat", sans-serif; }
+        .fa-anchor, .fa-coffee { font-size: 200px; }
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -40,116 +47,130 @@
             background-color: #f4f4f4;
         }
     </style>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- טבלה של הדוחות -->
-        <table>
-            <thead>
-                <tr>
-                    <th>תיאור</th>
-                    <th>סטטוס</th>
-                    <th>דחיפות</th>
-                </tr>
-            </thead>
-            <tbody id="reports-table-body">
-                <!-- השורות יתווספו דינאמית -->
-            </tbody>
-        </table>
 
-        <!-- מפה -->
-        <div id="map"></div>
+<div class="w3-top">
+    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
     </div>
+</div>
 
-    <script>
-        // נתוני הדוחות ממעקב אחרי פעיות
-        let reports = JSON.parse(localStorage.getItem('reports')) || [
-            { description: 'דוח 1', status: 'ממתין', priority: 1, latitude: 31.0461, longitude: 34.8516 },
-            { description: 'דוח 2', status: 'בטיפול', priority: 2, latitude: 31.0462, longitude: 34.8517 },
-            { description: 'דוח 3', status: 'טופל', priority: 3, latitude: 31.0463, longitude: 34.8518 }
-        ];
+<div class="container">
+    <!-- טבלה של הדוחות -->
+    <table>
+        <thead>
+            <tr>
+                <th>תיאור</th>
+                <th>סטטוס</th>
+                <th>דחיפות</th>
+            </tr>
+        </thead>
+        <tbody id="reports-table-body">
+            <!-- השורות יתווספו דינאמית -->
+        </tbody>
+    </table>
 
-        // מפה
-        const map = L.map('map').setView([31.0461, 34.8516], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+    <!-- מפה -->
+    <div id="map"></div>
+</div>
 
-        // צבעים לפי סטטוס
-        const statusColors = {
-            'ממתין': 'red',
-            'בטיפול': 'orange',
-            'טופל': 'green'
-        };
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // נתוני הדוחות ממעקב אחרי פעיות
+    let reports = JSON.parse(localStorage.getItem('reports')) || [
+        { description: 'דוח 1', status: 'ממתין', priority: 1, latitude: 31.0461, longitude: 34.8516 },
+        { description: 'דוח 2', status: 'בטיפול', priority: 2, latitude: 31.0462, longitude: 34.8517 },
+        { description: 'דוח 3', status: 'טופל', priority: 3, latitude: 31.0463, longitude: 34.8518 }
+    ];
 
-        // הוספת נקודות למפה
-        function displayReportsOnMap() {
-            reports.forEach(report => {
-                const marker = L.circleMarker([report.latitude, report.longitude], {
-                    color: statusColors[report.status],
-                    radius: getUrgencyRadius(report.priority) // גודל הנקודה לפי דחיפות
-                }).addTo(map);
+    // מפה
+    const map = L.map('map').setView([31.0461, 34.8516], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
-                marker.bindPopup(`
-                    <b>תיאור:</b> ${report.description}<br>
-                    <b>סטטוס:</b> ${report.status}<br>
-                    <b>דחיפות:</b> ${getPriorityText(report.priority)}
-                `);
-            });
+    // צבעים לפי סטטוס
+    const statusColors = {
+        'ממתין': 'red',
+        'בטיפול': 'orange',
+        'טופל': 'green'
+    };
+
+    // הוספת נקודות למפה
+    function displayReportsOnMap() {
+        reports.forEach(report => {
+            const marker = L.circleMarker([report.latitude, report.longitude], {
+                color: statusColors[report.status],
+                radius: getUrgencyRadius(report.priority) // גודל הנקודה לפי דחיפות
+            }).addTo(map);
+
+            marker.bindPopup(`
+                <b>תיאור:</b> ${report.description}<br>
+                <b>סטטוס:</b> ${report.status}<br>
+                <b>דחיפות:</b> ${getPriorityText(report.priority)}
+            `);
+        });
+    }
+
+    // גודל הנקודה לפי רמת הדחיפות
+    function getUrgencyRadius(priority) {
+        switch (priority) {
+            case 1:
+                return 12;
+            case 2:
+                return 8;
+            case 3:
+                return 5;
+            default:
+                return 6;
         }
+    }
 
-        // גודל הנקודה לפי רמת הדחיפות
-        function getUrgencyRadius(priority) {
-            switch (priority) {
-                case 1:
-                    return 12;
-                case 2:
-                    return 8;
-                case 3:
-                    return 5;
-                default:
-                    return 6;
-            }
+    // תרגום המספר לדחיפות
+    function getPriorityText(priority) {
+        switch (priority) {
+            case 1:
+                return 'גבוהה';
+            case 2:
+                return 'בינונית';
+            case 3:
+                return 'נמוכה';
+            default:
+                return 'לא הוגדרה';
         }
+    }
 
-        // תרגום המספר לדחיפות
-        function getPriorityText(priority) {
-            switch (priority) {
-                case 1:
-                    return 'גבוהה';
-                case 2:
-                    return 'בינונית';
-                case 3:
-                    return 'נמוכה';
-                default:
-                    return 'לא הוגדרה';
-            }
-        }
+    // הצגת הטבלה
+    function displayReportsInTable() {
+        const tableBody = document.getElementById('reports-table-body');
+        tableBody.innerHTML = ''; // איפוס התוכן הקודם
+        reports.forEach(report => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${report.description}</td>
+                <td>${report.status}</td>
+                <td>${getPriorityText(report.priority)}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
 
-        // הצגת הטבלה
-        function displayReportsInTable() {
-            const tableBody = document.getElementById('reports-table-body');
-            tableBody.innerHTML = ''; // איפוס התוכן הקודם
-            reports.forEach(report => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${report.description}</td>
-                    <td>${report.status}</td>
-                    <td>${getPriorityText(report.priority)}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+    // שמירת דוחות ב-localStorage
+    function saveReports() {
+        localStorage.setItem('reports', JSON.stringify(reports));
+    }
 
-        // שמירת דוחות ב-localStorage
-        function saveReports() {
-            localStorage.setItem('reports', JSON.stringify(reports));
-        }
+    // הצגת הדוחות על המפה ובטבלה
+    displayReportsOnMap();
+    displayReportsInTable();
+</script>
 
-        // הצגת הדוחות על המפה ובטבלה
-        displayReportsOnMap();
-        displayReportsInTable();
-    </script>
 </body>
 </html>
