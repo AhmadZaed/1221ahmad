@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login - Beer 7 360</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+            background: linear-gradient(135deg, white, #ff4d4d);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .loginbtn {
+            width: 100%;
+            padding: 14px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .loginbtn:hover {
+            background-color: #e63939;
+        }
+
+        .role-selection button {
+            width: 48%;
+            padding: 10px;
+            margin: 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .role-selection button:hover {
+            transform: scale(1.05);
+        }
+
+        .rolebtn {
+            background-color: #ff4d4d; 
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>ברוכים הבאים ל-Beer 7 360</h2>
+        <div class="role-selection">
+            <button class="rolebtn" onclick="showLoginForm('resident')">התחבר כתושב</button>
+            <button class="rolebtn" onclick="showLoginForm('worker')">התחבר כעובד</button>
+            <button class="rolebtn" onclick="showLoginForm('admin')">התחבר כמנהל</button>
+        </div>
+
+        <form id="residentLoginForm" style="display:none;" onsubmit="handleLogin(event, 'resident')">
+            <input type="text" placeholder="שם משתמש" name="residentUsername" required>
+            <input type="password" placeholder="סיסמה" name="residentPassword" required>
+            <button type="submit" class="loginbtn">התחבר כתושב</button>
+        </form>
+
+        <form id="workerLoginForm" style="display:none;" onsubmit="handleLogin(event, 'worker')">
+            <input type="text" placeholder="שם משתמש" name="workerUsername" required>
+            <input type="password" placeholder="סיסמה" name="workerPassword" required>
+            <button type="submit" class="loginbtn">התחבר כעובד</button>
+        </form>
+
+        <form id="adminLoginForm" style="display:none;" onsubmit="handleLogin(event, 'admin')">
+            <input type="text" placeholder="שם משתמש" name="adminUsername" required>
+            <input type="password" placeholder="סיסמה" name="adminPassword" required>
+            <button type="submit" class="loginbtn">התחבר כמנהל</button>
+        </form>
+    </div>
+
+    <script>
+        function showLoginForm(userType) {
+            document.getElementById('residentLoginForm').style.display = 'none';
+            document.getElementById('workerLoginForm').style.display = 'none';
+            document.getElementById('adminLoginForm').style.display = 'none';
+
+            if (userType === 'resident') {
+                document.getElementById('residentLoginForm').style.display = 'block';
+            } else if (userType === 'worker') {
+                document.getElementById('workerLoginForm').style.display = 'block';
+            } else if (userType === 'admin') {
+                document.getElementById('adminLoginForm').style.display = 'block';
+            }
+        }
+
+        function handleLogin(event, userType) {
+            event.preventDefault();
+            var username = event.target[0].value;  // קבלת שם המשתמש מהטופס
+            localStorage.setItem("username", username);  // שמירת שם המשתמש ב-localStorage
+            alert("התחברת בהצלחה כ-" + userType);
+            window.location.href = "home.html"; // הפניה חזרה לדף הבית לאחר התחברות
+        }
+    </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Beer 7 360 - Login</title>
+    <title>Beer 7 360</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -9,195 +9,170 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-        .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-        .fa-anchor,.fa-coffee {font-size:200px}
-
-        body {
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg,white, #ff4d4d);
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-family: "Lato", sans-serif;
+            background: linear-gradient(135deg, white, #ff4d4d);
             color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        .container {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-            width: 350px;
+        #main-content {
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .w3-bar-item:hover {
+            background-color: #ff4d4d !important;
+            color: white !important;
+        }
+
+        header {
+            padding: 128px 16px;
+            background-color: #ff4d4d;
+            color: white;
             text-align: center;
-            animation: fadeIn 1s ease;
         }
 
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(-20px);}
-            to {opacity: 1; transform: translateY(0);}
+        /* גלילה חלקה */
+        html {
+            scroll-behavior: smooth;
         }
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        .loginbtn {
-            width: 100%;
-            padding: 14px;
-            background: #ff4d4d;
+        /* כפתור גלילה */
+        #scrollToTop, #scrollToBottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff4d4d;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 50%;
+            padding: 15px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            font-size: 18px;
+            display: none; /* מוסתר עד הצורך */
+            z-index: 1000;
         }
 
-        .loginbtn:hover {
+        #scrollToBottom {
+            bottom: 70px;
+        }
+
+        #scrollToTop:hover, #scrollToBottom:hover {
             background-color: #e63939;
         }
 
-        .role-selection button {
-            width: 48%;
-            padding: 10px;
-            margin: 5px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.2s;
+        /* שינוי גודל האייקון */
+        .icon-large {
+            font-size: 100px; /* הגדלת האייקון */
         }
 
-        .role-selection button:hover {
-            transform: scale(1.05);
+        /* שינוי הגודל של ה- div */
+        .icon-container {
+            width: 50%; /* תופס חצי מהרחב */
+            margin-left: auto;  /* ממקם את ה- div בצד ימין */
+            margin-right: 0;  /* אין מרווח מימין */
+            text-align: right; /* יישור ה- icon לימין */
         }
 
-        .rolebtn-resident, .rolebtn-worker, .rolebtn-admin {
-            background-color: #ff4d4d; 
-            color: white;
+        /* מיקום של הטקסט והאייקון */
+        .content-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .rolebtn-resident:hover, .rolebtn-admin:hover {
-            background-color: #f2f2f2;
-        }
-        .rolebtn-worker:hover {
-            background-color: #e63939;
+        .text-content {
+            flex: 1;
         }
     </style>
 </head>
 <body>
-    <div id="loginOverlay" class="container">
-        <h2>ברוכים הבאים ל-Beer 7 360</h2>
-        <div class="role-selection">
-            <button class="rolebtn-resident" onclick="showLoginForm('resident')">התחבר כתושב</button>
-            <button class="rolebtn-worker" onclick="showLoginForm('worker')">התחבר כעובד</button>
-            <button class="rolebtn-admin" onclick="showLoginForm('admin')">התחבר כמנהל</button>
-        </div>
-
-        <form id="residentLoginForm" style="display:none;" onsubmit="handleLogin(event, 'resident')">
-            <input type="text" placeholder="שם משתמש" name="residentUsername" required>
-            <input type="password" placeholder="סיסמה" name="residentPassword" required>
-            <button type="submit" class="loginbtn">התחבר כתושב</button>
-        </form>
-
-        <form id="workerLoginForm" style="display:none;" onsubmit="handleLogin(event, 'worker')">
-            <input type="text" placeholder="שם משתמש" name="workerUsername" required>
-            <input type="password" placeholder="סיסמה" name="workerPassword" required>
-            <button type="submit" class="loginbtn">התחבר כעובד</button>
-        </form>
-
-        <form id="adminLoginForm" style="display:none;" onsubmit="handleLogin(event, 'admin')">
-            <input type="text" placeholder="שם משתמש" name="adminUsername" required>
-            <input type="password" placeholder="סיסמה" name="adminPassword" required>
-            <button type="submit" class="loginbtn">התחבר כמנהל</button>
-        </form>
-    </div>
-
     <!-- Navbar -->
-    <div id="navbar" class="w3-top" style="display:none;">
-        <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-            <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-            <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-            <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-            <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-            <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-            <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>        
+    <div id="navbar" class="w3-top w3-red">
+        <div class="w3-bar w3-card w3-large">
+            <a href="#main-content" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+            <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-padding-large">דיווח על מפגעים</a>
+            <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-padding-large">מעקב אחרי פעייות</a>
+            <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-padding-large">הצגת בעיות על מפה</a>
+            <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-padding-large">יצירת קשר עם מחלקות בערייה</a>
+            <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-padding-large">הצעת רעיונות לשיפור העיר</a>
+            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>    
+        </div>
     </div>
 
     <!-- Main content -->
-    <div id="main-content" class="w3-container" style="display:none;">
+    <div id="main-content" class="w3-container" style="display:block;">
+        <!-- Header Section -->
         <header class="w3-container w3-red w3-center" style="padding:128px 16px">
             <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
-            <p class="w3-xlarge">Helping residents, workers, and admins manage issues efficiently.</p>
+            <p class="w3-xlarge" style="color:white;">Helping residents, workers, and admins manage issues efficiently.</p>
         </header>
+
+        <!-- Main Content Section -->
         <div class="w3-row-padding w3-padding-64 w3-container">
             <div class="w3-content">
-                <div class="w3-twothird">
-                    <h1>Welcome</h1>
-                    <h5 class="w3-padding-32">This website allows citizens and workers to collaborate on fixing issues in the community.</h5>
-                    <p class="w3-text-grey">The platform provides an easy way for users to report problems and issues, such as road hazards, broken streetlights, and more, helping local authorities address them quickly.</p>
-                </div>
-                <div class="w3-third w3-center">
-                    <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+                <!-- Left Side Content -->
+                <div class="content-row">
+                    <div class="text-content">
+                        <h1>Welcome</h1>
+                        <h5 class="w3-padding-32">This website allows citizens and workers to collaborate on fixing issues in the community.</h5>
+                        <p class="w3-text-grey">The platform provides an easy way for users to report problems and issues, such as road hazards, broken streetlights, and more, helping local authorities address them quickly.</p>
+                    </div>
+
+                    <!-- Right Side Icon (גדול וממוקם במרכז) -->
+                    <div class="icon-container">
+                        <i class="fa fa-anchor w3-padding-64 w3-text-red icon-large"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-       
+
+    <!-- כפתורי גלילה -->
+    <button id="scrollToTop" onclick="scrollToTop()">▲</button>
+    <button id="scrollToBottom" onclick="scrollToBottom()">▼</button>
 
     <script>
-        function showLoginForm(userType) {
-            document.getElementById('residentLoginForm').style.display = 'none';
-            document.getElementById('workerLoginForm').style.display = 'none';
-            document.getElementById('adminLoginForm').style.display = 'none';
+        // הצגת כפתורים לפי מיקום
+        window.onscroll = function () {
+            const scrollToTopBtn = document.getElementById("scrollToTop");
+            const scrollToBottomBtn = document.getElementById("scrollToBottom");
 
-            if (userType === 'resident') {
-                document.getElementById('residentLoginForm').style.display = 'block';
-            } else if (userType === 'worker') {
-                document.getElementById('workerLoginForm').style.display = 'block';
-            } else if (userType === 'admin') {
-                document.getElementById('adminLoginForm').style.display = 'block';
-            }
-        }
-
-        function handleLogin(event, userType) {
-            event.preventDefault();
-
-            let successfulLogin = true;
-
-            if (successfulLogin) {
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('navbar').style.display = 'block';
-                document.getElementById('main-content').style.display = 'block';
-
-                if (userType === 'admin') {
-                    document.getElementById('admin-content').style.display = 'block';
-                }
+            if (window.scrollY > 200) {
+                scrollToTopBtn.style.display = "block";
             } else {
-                alert("Login failed. Please check your credentials.");
+                scrollToTopBtn.style.display = "none";
             }
+
+            if (window.innerHeight + window.scrollY < document.body.offsetHeight - 200) {
+                scrollToBottomBtn.style.display = "block";
+            } else {
+                scrollToBottomBtn.style.display = "none";
+            }
+        };
+
+        // פונקציה לגלילה למעלה
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    </script>
+
+        // פונקציה לגלילה למטה
+        function scrollToBottom() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+function dganjoLogout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    alert("התנתקת בהצלחה!");
+    window.location.href = 'login.html'; // מעבר לדף הבית
+}
+</script>
 </body>
 </html>
-<script>
-    function dganjoLogout() {
-        // איפוס נתוני הסשן עם דגש על יציאה בשיקול דעת
-        alert("התנתקת בהצלחה עם דג'אנג'ו!");
-        // הצגת מסך הכניסה
-        document.getElementById('loginOverlay').style.display = 'block';
-        document.getElementById('navbar').style.display = 'none';
-        document.getElementById('main-content').style.display = 'none';
-    }
-</script>
 

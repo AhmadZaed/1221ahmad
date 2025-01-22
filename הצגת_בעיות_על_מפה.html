@@ -46,6 +46,9 @@
         table th {
             background-color: #f4f4f4;
         }
+        .content {
+            margin-top: 80px; /* פתרון לבעיה שהניווט מסתיר את התוכן */
+        }
     </style>
 </head>
 <body>
@@ -60,25 +63,27 @@
         <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
         <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
         <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>    
+    </div>
 </div>
 
-<div class="container">
-    <!-- טבלה של הדוחות -->
-    <table>
-        <thead>
-            <tr>
-                <th>תיאור</th>
-                <th>סטטוס</th>
-                <th>דחיפות</th>
-            </tr>
-        </thead>
-        <tbody id="reports-table-body">
-            <!-- השורות יתווספו דינאמית -->
-        </tbody>
-    </table>
-
-    <!-- מפה -->
-    <div id="map"></div>
+<div class="content">
+    <div class="container">
+        <!-- טבלה של הדוחות -->
+        <table>
+            <thead>
+                <tr>
+                    <th>תיאור</th>
+                    <th>סטטוס</th>
+                    <th>דחיפות</th>
+                </tr>
+            </thead>
+            <tbody id="reports-table-body">
+                <!-- השורות יתווספו דינאמית -->
+            </tbody>
+        </table>
+        <!-- מפה -->
+        <div id="map"></div>
+    </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -162,35 +167,17 @@
         });
     }
 
-    // שמירת דוחות ב-localStorage
-    function saveReports() {
-        localStorage.setItem('reports', JSON.stringify(reports));
-    }
-
     // הצגת הדוחות על המפה ובטבלה
     displayReportsOnMap();
     displayReportsInTable();
-</script>
 
-</body>
-</html>
-<script>
-    function dganjoLogout() {
-        // איפוס נתוני הסשן עם דגש על יציאה בשיקול דעת
-        alert("התנתקת בהצלחה עם דג'אנג'ו!");
-        // הצגת מסך הכניסה
-        document.getElementById('loginOverlay').style.display = 'block';
-        document.getElementById('navbar').style.display = 'none';
-        document.getElementById('main-content').style.display = 'none';
-    }
-
-// פונקציית Logout
 function dganjoLogout() {
-  localStorage.clear();
-  sessionStorage.clear();
-  alert("התנתקת בהצלחה!");
-  window.location.href = 'home.html'; // מעבר לדף הבית
+    localStorage.clear();
+    sessionStorage.clear();
+    alert("התנתקת בהצלחה!");
+    window.location.href = 'login.html'; // מעבר לדף הבית
 }
 </script>
 </body>
 </html>
+

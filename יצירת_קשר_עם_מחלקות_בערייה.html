@@ -1,15 +1,6 @@
 <!DOCTYPE html>
-<div id="navbar" class="w3-top">
-    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-        <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>   
-</div>
 <html lang="he">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מחלקות ובעלי מקצוע</title>
@@ -20,6 +11,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            margin-top: 80px;
         }
         .container {
             padding: 20px;
@@ -55,11 +47,24 @@
         }
     </style>
 </head>
+  <div id="navbar" class="w3-top">
+    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+        <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
+    </div>
+</div>
+
 <body>
+    <!-- Main Content -->
     <div class="container">
         <h1 class="w3-center">רשימת מחלקות ובעלי מקצוע</h1>
         <p class="w3-center">בחר מחלקה כדי להציג את בעלי המקצוע שלה</p>
-        
+
         <!-- כפתורים למחלקות עם אייקונים ותיאור -->
         <button class="department-button" onclick="showProfessionals('electricity')">
             <span><i class="fa fa-bolt"></i> מחלקת חשמל</span>
@@ -119,47 +124,37 @@
             ]
         };
 
-        // פונקציה להצגת בעלי המקצוע
+        // פונקציה להצגת בעלי מקצוע לפי מחלקה
         function showProfessionals(department) {
             const professionalsList = document.getElementById("professionals-list");
-            professionalsList.innerHTML = ""; // מנקה את האזור להצגת המידע
+            const professionals = departments[department] || [];
             
-            // בדיקה אם יש נתונים למחלקה
-            if (departments[department]) {
-                departments[department].forEach(professional => {
-                    // יצירת תיבת מידע על בעל מקצוע
-                    const professionalDiv = document.createElement("div");
-                    professionalDiv.className = "professional";
-                    professionalDiv.innerHTML = `
-                        <p><strong>שם:</strong> ${professional.name}</p>
-                        <p><strong>טלפון:</strong> ${professional.phone}</p>
-                        <p><strong>דוא"ל:</strong> <a href="mailto:${professional.email}">${professional.email}</a></p>
-                    `;
-                    professionalsList.appendChild(professionalDiv);
-                });
-            } else {
-                professionalsList.innerHTML = `<p>לא נמצאו נתונים למחלקה זו.</p>`;
+            if (professionals.length === 0) {
+                professionalsList.innerHTML = `<p>אין נתונים זמינים עבור מחלקה זו.</p>`;
+                return;
             }
+
+            let html = "<h3>רשימת בעלי מקצוע:</h3>";
+            professionals.forEach(prof => {
+                html += `
+                    <div class="professional">
+                        <strong>שם:</strong> ${prof.name}<br>
+                        <strong>טלפון:</strong> ${prof.phone}<br>
+                        <strong>אימייל:</strong> <a href="mailto:${prof.email}">${prof.email}</a>
+                    </div>
+                `;
+            });
+
+            professionalsList.innerHTML = html;
         }
-    </script>
-</body>
-</html>
-<script>
-    function dganjoLogout() {
-        // איפוס נתוני הסשן עם דגש על יציאה בשיקול דעת
-        alert("התנתקת בהצלחה עם דג'אנג'ו!");
-        // הצגת מסך הכניסה
-        document.getElementById('loginOverlay').style.display = 'block';
-        document.getElementById('navbar').style.display = 'none';
-        document.getElementById('main-content').style.display = 'none';
-    }
-   // פונקציית Logout
-   function dganjoLogout() {
-      localStorage.clear();
-      sessionStorage.clear();
-      alert("התנתקת בהצלחה!");
-      window.location.href = 'home.html'; // מעבר לדף הבית
-    }
-  </script>
+   
+
+function dganjoLogout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    alert("התנתקת בהצלחה!");
+    window.location.href = 'login.html'; // מעבר לדף הבית
+}
+</script>
 </body>
 </html>

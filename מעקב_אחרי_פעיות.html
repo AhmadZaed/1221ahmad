@@ -1,39 +1,43 @@
 <!DOCTYPE html>
-<div id="navbar" class="w3-top">
-    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-        <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>   
-</div>
 <html lang="he">
 <head>
-    <title>מעקב_אחרי_פעיות</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מעקב אחרי פעולות</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
- body {
+        body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
+            height: 100%;
+            overflow: hidden; /* מונע גלילה */
         }
+
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
         .container {
             max-width: 900px;
-            margin: 30px auto;
+            margin: 100px auto 0; /* מוודא שהתוכן לא נכנס תחת הניווט */
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: calc(100vh - 120px); /* מוודא שהתוכן מתאים לגובה המסך */
+            overflow-y: auto; /* מוסיף גלילה פנימית אם יש צורך */
         }
+
         h2 {
             text-align: center;
         }
+
         .status-btn {
             margin: 5px;
             padding: 10px;
@@ -43,16 +47,20 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .status-btn:hover {
             background-color: #45a049;
         }
+
         .report-item {
             border-bottom: 1px solid #ddd;
             padding: 15px 0;
         }
+
         .report-actions button {
             margin: 5px;
         }
+
         .priority {
             font-weight: bold;
             color: #ff5722;
@@ -60,6 +68,20 @@
     </style>
 </head>
 <body>
+    <!-- ניווט עליון -->
+    <div id="navbar" class="w3-top">
+        <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+            <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+            <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+            <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+            <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+            <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+            <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
+        </div>
+    </div>
+
+    <!-- תוכן ראשי -->
     <div class="container">
         <h2>מעקב אחרי פעולות</h2>
         <div id="reports-list"></div>
@@ -137,25 +159,13 @@
         }
 
         renderReports();
+
+        function dganjoLogout() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert("התנתקת בהצלחה!");
+            window.location.href = 'login.html'; // מעבר לדף הבית
+        }
     </script>
-</body>
-</html>
-<script>
-    function dganjoLogout() {
-        // איפוס נתוני הסשן עם דגש על יציאה בשיקול דעת
-        alert("התנתקת בהצלחה עם דג'אנג'ו!");
-        // הצגת מסך הכניסה
-        document.getElementById('loginOverlay').style.display = 'block';
-        document.getElementById('navbar').style.display = 'none';
-        document.getElementById('main-content').style.display = 'none';
-    }
-   // פונקציית Logout
-   function dganjoLogout() {
-      localStorage.clear();
-      sessionStorage.clear();
-      alert("התנתקת בהצלחה!");
-      window.location.href = 'home.html'; // מעבר לדף הבית
-    }
-  </script>
 </body>
 </html>

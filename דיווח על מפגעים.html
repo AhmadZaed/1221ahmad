@@ -75,41 +75,46 @@
   </style>
 </head>
 <body>
+  <!-- ניווט -->
   <div id="navbar" class="w3-top">
     <div class="w3-bar w3-red w3-card w3-left-align w3-large">
-        <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
-        <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
-        <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
-        <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
-        <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
-        <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
-        <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>    
+      <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+      <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+      <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+      <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+      <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+      <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+      <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
+    </div>
   </div>
 
-  <div class="form-container w3-card">
-    <h2>טופס דיווח על מפגע</h2>
-    <form id="report-form">
-      <!-- תיאור המפגע -->
-      <label for="description">תיאור המפגע:</label>
-      <textarea id="description" name="description" rows="4" maxlength="500" placeholder="תאר את המפגע..." required></textarea>
-      <p class="w3-text-grey">עד 500 תווים.</p>
+  <!-- תוכן הדף -->
+  <div style="margin-top: 80px;">
+    <div class="form-container w3-card">
+      <h2>טופס דיווח על מפגע</h2>
+      <form id="report-form">
+        <!-- תיאור המפגע -->
+        <label for="description">תיאור המפגע:</label>
+        <textarea id="description" name="description" rows="4" maxlength="500" placeholder="תאר את המפגע..." required></textarea>
+        <p class="w3-text-grey">עד 500 תווים.</p>
 
-      <!-- מפה אינטראקטיבית -->
-      <label for="location">מיקום המפגע:</label>
-      <div id="map"></div>
-      <input type="hidden" id="latitude" name="latitude">
-      <input type="hidden" id="longitude" name="longitude">
+        <!-- מפה אינטראקטיבית -->
+        <label for="location">מיקום המפגע:</label>
+        <div id="map"></div>
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
 
-      <!-- העלאת תמונה -->
-      <label for="image-upload">העלאת תמונה:</label>
-      <input type="file" id="image-upload" name="image-upload" accept="image/jpeg, image/png" required>
-      <p class="w3-text-grey">קבצי JPEG/PNG בלבד, עד 5MB.</p>
+        <!-- העלאת תמונה -->
+        <label for="image-upload">העלאת תמונה:</label>
+        <input type="file" id="image-upload" name="image-upload" accept="image/jpeg, image/png" required>
+        <p class="w3-text-grey">קבצי JPEG/PNG בלבד, עד 5MB.</p>
 
-      <!-- כפתור שליחה -->
-      <button type="submit" class="submit-btn">שלח דיווח</button>
-      <!-- כפתור חזרה לדף הבית -->
-      <a href="home.html" class="home-btn">חזרה לדף הבית</a>
-    </form>
+        <!-- כפתור שליחה -->
+        <button type="submit" class="submit-btn">שלח דיווח</button>
+        <!-- כפתור חזרה לדף הבית -->
+        <a href="home.html" class="home-btn">חזרה לדף הבית</a>
+      </form>
+    </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -176,7 +181,7 @@
       localStorage.clear();
       sessionStorage.clear();
       alert("התנתקת בהצלחה!");
-      window.location.href = 'home.html'; // מעבר לדף הבית
+      window.location.href = 'login.html'; // מעבר לדף הבית
     }
   </script>
 </body>
