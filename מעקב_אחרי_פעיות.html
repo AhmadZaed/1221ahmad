@@ -12,8 +12,6 @@
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden; /* מונע גלילה */
         }
 
         #navbar {
@@ -25,13 +23,12 @@
 
         .container {
             max-width: 900px;
-            margin: 100px auto 0; /* מוודא שהתוכן לא נכנס תחת הניווט */
+            margin: 100px auto 0;
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: calc(100vh - 120px); /* מוודא שהתוכן מתאים לגובה המסך */
-            overflow-y: auto; /* מוסיף גלילה פנימית אם יש צורך */
+            overflow-y: auto;
         }
 
         h2 {
@@ -50,6 +47,14 @@
 
         .status-btn:hover {
             background-color: #45a049;
+        }
+
+        .status-btn.red {
+            background-color: red;
+        }
+
+        .status-btn.red:hover {
+            background-color: darkred;
         }
 
         .report-item {
@@ -109,12 +114,13 @@
                     <p>סטטוס נוכחי: ${report.status}</p>
                     <p>עדיפות: <span class="priority">${getPriorityText(report.priority)}</span></p>
                     <div class="report-actions">
-                        <button onclick="updateStatus(${index}, 'בטיפול')">בטיפול</button>
-                        <button onclick="updateStatus(${index}, 'טופל')">טופל</button>
-                        <button onclick="setPriority(${index}, 1)">עדיפות גבוהה</button>
-                        <button onclick="setPriority(${index}, 2)">עדיפות בינונית</button>
-                        <button onclick="setPriority(${index}, 3)">עדיפות נמוכה</button>
-                        <button onclick="deleteReport(${index})" style="background-color: red; color: white;">מחק דוח</button>
+                        <button class="status-btn" onclick="updateStatus(${index}, 'בטיפול')">בטיפול</button>
+                        <button class="status-btn" onclick="updateStatus(${index}, 'טופל')">טופל</button>
+                        <button class="status-btn" onclick="setPriority(${index}, 1)">עדיפות גבוהה</button>
+                        <button class="status-btn" onclick="setPriority(${index}, 2)">עדיפות בינונית</button>
+                        <button class="status-btn" onclick="setPriority(${index}, 3)">עדיפות נמוכה</button>
+                        <button class="status-btn red" onclick="deleteReport(${index})">מחק דוח</button>
+                        <button class="status-btn" onclick="subscribeForNotifications(${index})">קבלת התראות לתושבים</button>
                     </div>
                 `;
                 reportsList.appendChild(reportItem);
@@ -158,7 +164,10 @@
             localStorage.setItem('reports', JSON.stringify(reports));
         }
 
-        renderReports();
+        function subscribeForNotifications(index) {
+            const report = reports[index];
+            alert(`נרשמת לקבלת התראות עבור הדוח: ${report.description}`);
+        }
 
         function dganjoLogout() {
             localStorage.clear();
@@ -166,6 +175,8 @@
             alert("התנתקת בהצלחה!");
             window.location.href = 'login.html'; // מעבר לדף הבית
         }
+
+        renderReports();
     </script>
 </body>
 </html>
