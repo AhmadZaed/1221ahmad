@@ -98,6 +98,14 @@
         <textarea id="description" name="description" rows="4" maxlength="500" placeholder="תאר את המפגע..." required></textarea>
         <p class="w3-text-grey">עד 500 תווים.</p>
 
+        <!-- בחירת עדיפות -->
+        <label for="priority">עדיפות:</label>
+        <select id="priority" name="priority" required>
+          <option value="high">גבוהה</option>
+          <option value="medium">בינונית</option>
+          <option value="low">נמוכה</option>
+        </select>
+
         <!-- מפה אינטראקטיבית -->
         <label for="location">מיקום המפגע:</label>
         <div id="map"></div>
@@ -145,6 +153,7 @@
       e.preventDefault();
 
       const description = document.getElementById('description').value;
+      const priority = document.getElementById('priority').value;
       const latitude = document.getElementById('latitude').value;
       const longitude = document.getElementById('longitude').value;
       const imageInput = document.getElementById('image-upload');
@@ -162,10 +171,11 @@
 
       const report = {
         description,
+        priority,
         latitude,
         longitude,
         image: file.name,
-        status: 'ממתין', 
+        status: 'ממתין',
       };
 
       let reports = JSON.parse(localStorage.getItem('reports')) || [];
