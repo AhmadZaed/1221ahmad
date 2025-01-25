@@ -37,12 +37,10 @@
             text-align: center;
         }
 
-        /* גלילה חלקה */
         html {
             scroll-behavior: smooth;
         }
 
-        /* כפתור גלילה */
         #scrollToTop, #scrollToBottom {
             position: fixed;
             bottom: 20px;
@@ -54,7 +52,7 @@
             padding: 15px;
             cursor: pointer;
             font-size: 18px;
-            display: none; /* מוסתר עד הצורך */
+            display: none;
             z-index: 1000;
         }
 
@@ -66,20 +64,17 @@
             background-color: #e63939;
         }
 
-        /* שינוי גודל האייקון */
         .icon-large {
-            font-size: 100px; /* הגדלת האייקון */
+            font-size: 100px;
         }
 
-        /* שינוי הגודל של ה- div */
         .icon-container {
-            width: 50%; /* תופס חצי מהרחב */
-            margin-left: auto;  /* ממקם את ה- div בצד ימין */
-            margin-right: 0;  /* אין מרווח מימין */
-            text-align: right; /* יישור ה- icon לימין */
+            width: 50%;
+            margin-left: auto;
+            margin-right: 0;
+            text-align: right;
         }
 
-        /* מיקום של הטקסט והאייקון */
         .content-row {
             display: flex;
             justify-content: space-between;
@@ -88,6 +83,14 @@
 
         .text-content {
             flex: 1;
+        }
+
+        .admin-panel {
+            background-color: #ff4d4d;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -131,9 +134,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- Admin Panel (only visible to admin) -->
+        <div id="adminContent" class="admin-panel" style="display: none;">
+            <h3>Admin Panel</h3>
+            <p>As an admin, you can manage users, view statistics, and perform various administrative tasks.</p>
+            <button class="w3-button w3-white w3-border w3-border-black">Manage Users</button>
+            <button class="w3-button w3-white w3-border w3-border-black">View Statistics</button>
+        </div>
+
     </div>
 
-    <!-- כפתורי גלילה -->
+    <!-- Scroll buttons -->
     <button id="scrollToTop" onclick="scrollToTop()">▲</button>
     <button id="scrollToBottom" onclick="scrollToBottom()">▼</button>
 
@@ -166,13 +178,21 @@
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
-function dganjoLogout() {
-    localStorage.clear();
-    sessionStorage.clear();
-    alert("התנתקת בהצלחה!");
-    window.location.href = 'login.html'; // מעבר לדף הבית
-}
-</script>
+        function dganjoLogout() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert("התנתקת בהצלחה!");
+            window.location.href = 'login.html'; // מעבר לדף הבית
+        }
+
+        // Check if the user is an admin and show admin content
+        window.onload = function() {
+            var userType = localStorage.getItem("userType");
+
+            if (userType === 'admin') {
+                document.getElementById('adminContent').style.display = 'block';
+            }
+        };
+    </script>
 </body>
 </html>
-

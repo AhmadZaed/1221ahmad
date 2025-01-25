@@ -132,6 +132,7 @@
             event.preventDefault();
             var username = event.target[0].value;  // קבלת שם המשתמש מהטופס
             localStorage.setItem("username", username);  // שמירת שם המשתמש ב-localStorage
+            localStorage.setItem("userType", userType);  // שמירת סוג המשתמש ב-localStorage
             alert("התחברת בהצלחה כ-" + userType);
             window.location.href = "home.html"; // הפניה חזרה לדף הבית לאחר התחברות
         }
