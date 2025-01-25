@@ -28,7 +28,6 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
         }
 
         h2 {
@@ -100,6 +99,8 @@
             { description: 'דוח 3', status: 'טופל', priority: 3 }
         ];
 
+        const userType = localStorage.getItem('userType'); // סוג המשתמש
+
         function renderReports() {
             reportsList.innerHTML = '';
             if (reports.length === 0) {
@@ -114,12 +115,13 @@
                     <p>סטטוס נוכחי: ${report.status}</p>
                     <p>עדיפות: <span class="priority">${getPriorityText(report.priority)}</span></p>
                     <div class="report-actions">
+                        ${userType !== 'resident' ? `
                         <button class="status-btn" onclick="updateStatus(${index}, 'בטיפול')">בטיפול</button>
                         <button class="status-btn" onclick="updateStatus(${index}, 'טופל')">טופל</button>
                         <button class="status-btn" onclick="setPriority(${index}, 1)">עדיפות גבוהה</button>
                         <button class="status-btn" onclick="setPriority(${index}, 2)">עדיפות בינונית</button>
                         <button class="status-btn" onclick="setPriority(${index}, 3)">עדיפות נמוכה</button>
-                        <button class="status-btn red" onclick="deleteReport(${index})">מחק דוח</button>
+                        <button class="status-btn red" onclick="deleteReport(${index})">מחק דוח</button>` : ''}
                         <button class="status-btn" onclick="subscribeForNotifications(${index})">קבלת התראות לתושבים</button>
                     </div>
                 `;
