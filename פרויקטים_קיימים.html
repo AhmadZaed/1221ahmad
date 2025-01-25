@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרויקטים קיימים</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 100px auto 0;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .project-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .project-item h3 {
+            margin: 0;
+        }
+
+        .project-item p {
+            margin: 5px 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .status-בתכנון {
+            color: orange;
+        }
+
+        .status-בביצוע {
+            color: blue;
+        }
+
+        .status-הושלם {
+            color: green;
+        }
+
+        .btn {
+            padding: 5px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ניווט עליון -->
+    <div id="navbar" class="w3-top">
+        <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+            <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+            <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+            <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+            <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+            <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+            <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+            <a href="עדכון_פרויקטים_ויוזמות_עירוניות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">עדכון פרויקטים ויוזמות עירוניות</a>
+            <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>
+            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
+        </div>
+    </div>
+    
+
+    <!-- תוכן הדף -->
+    <div class="container">
+        <h2>רשימת פרויקטים קיימים</h2>
+        <div id="projects-list"></div>
+    </div>
+
+    <script>
+        // טוען את רשימת הפרויקטים שנשמרו ב-localStorage
+        let projects = JSON.parse(localStorage.getItem('projects')) || [];
+
+        // פונקציה להצגת רשימת הפרויקטים
+        function renderProjects() {
+            const projectsList = document.getElementById('projects-list');
+            projectsList.innerHTML = '';
+
+            if (projects.length === 0) {
+                projectsList.innerHTML = '<p>לא נמצאו פרויקטים.</p>';
+                return;
+            }
+
+            projects.forEach(project => {
+                const projectItem = document.createElement('div');
+                projectItem.classList.add('project-item');
+                projectItem.innerHTML = `
+                    <h3>${project.name}</h3>
+                    <p>תיאור: ${project.description}</p>
+                    <p>סטטוס: <span class="status status-${project.status}">${project.status}</span></p>
+                    <p>תאריך התחלה: ${project.startDate}</p>
+                    <p>תאריך סיום: ${project.endDate}</p>
+                    <button class="btn" onclick="editProject('${project.name}')">ערוך פרויקט</button>
+                `;
+                projectsList.appendChild(projectItem);
+            });
+        }
+
+        // פונקציה לערוך פרויקט
+        function editProject(projectName) {
+            // מעבר לדף העריכה של הפרויקט
+            window.location.href = `עריכת_פרויקט.html?name=${projectName}`;
+        }
+
+        // פונקציה להתנתקות
+        function dganjoLogout() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert("התנתקת בהצלחה!");
+            window.location.href = 'login.html'; // מעבר לדף הכניסה
+        }
+
+        // טוען את רשימת הפרויקטים בעת טעינת הדף
+        renderProjects();
+    </script>
+
+</body>
+</html>

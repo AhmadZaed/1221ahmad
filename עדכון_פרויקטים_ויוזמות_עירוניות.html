@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הוספת פרויקט</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 100px auto 0;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn-cancel {
+            background-color: #f44336;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e31a1a;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ניווט עליון -->
+    <div id="navbar" class="w3-top">
+        <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+            <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+            <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+            <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+            <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+            <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+            <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+            <a href="עדכון_פרויקטים_ויוזמות_עירוניות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">עדכון פרויקטים ויוזמות עירוניות</a>
+            <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>
+            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
+        </div>
+    </div>
+    
+
+    <!-- תוכן הדף -->
+    <div class="container">
+        <h2>הוספת פרויקט חדש</h2>
+        <form id="projectForm">
+            <div class="form-group">
+                <label for="projectName">שם הפרויקט:</label>
+                <input type="text" id="projectName" name="projectName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="projectDescription">תיאור:</label>
+                <textarea id="projectDescription" name="projectDescription" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="projectStatus">סטטוס:</label>
+                <select id="projectStatus" name="projectStatus" required>
+                    <option value="בתכנון">בתכנון</option>
+                    <option value="בביצוע">בביצוע</option>
+                    <option value="הושלם">הושלם</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="startDate">תאריך התחלה:</label>
+                <input type="date" id="startDate" name="startDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">תאריך סיום:</label>
+                <input type="date" id="endDate" name="endDate" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn">הוסף פרויקט</button>
+                <button type="button" class="btn btn-cancel" onclick="cancelForm()">ביטול</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // טוען את רשימת הפרויקטים שנשמרו ב-localStorage
+        let projects = JSON.parse(localStorage.getItem('projects')) || [];
+
+        // פונקציה להוספת פרויקט חדש
+        function addProject(project) {
+            projects.push(project);
+            localStorage.setItem('projects', JSON.stringify(projects));
+            alert('הפרויקט הוסף בהצלחה!');
+            window.location.href = 'עדכון_פרויקטים_ויוזמות_עירוניות.html'; // מעבר לדף רשימת הפרויקטים
+        }
+
+        // כאשר המשתמש שולח את הטופס
+        document.getElementById('projectForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // מונע את שליחת הטופס באופן ברירת מחדל
+
+            // אוספים את הנתונים מהטופס
+            const projectName = document.getElementById('projectName').value;
+            const projectDescription = document.getElementById('projectDescription').value;
+            const projectStatus = document.getElementById('projectStatus').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            // יצירת אובייקט פרויקט חדש
+            const newProject = {
+                name: projectName,
+                description: projectDescription,
+                status: projectStatus,
+                startDate: startDate,
+                endDate: endDate
+            };
+
+            // הוספת הפרויקט לרשימה ושמירה ב-localStorage
+            addProject(newProject);
+        });
+
+        // פונקציה לביטול ההוספה
+        function cancelForm() {
+            if (confirm("האם אתה בטוח שברצונך לבטל את ההוספה?")) {
+                window.location.href = 'עדכון_פרויקטים_ויוזמות_עירוניות.html'; // מעבר לדף רשימת הפרויקטים
+            }
+        }
+
+        // פונקציה להתנתקות
+        function dganjoLogout() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert("התנתקת בהצלחה!");
+            window.location.href = 'login.html'; // מעבר לדף הכניסה
+        }
+    </script>
+
+</body>
+</html>
