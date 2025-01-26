@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>גרף סוגי דוחות וזמן טיפול ממוצע</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+        .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        canvas {
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div id="navbar" class="w3-top" style="display:block; background-color: red;">
+        <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+            <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-white">דף בית</a>
+            <a href="דיווח על מפגעים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">דיווח על מפגעים</a>
+            <a href="מעקב_אחרי_פעיות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">מעקב אחרי פעייות</a>
+            <a href="הצגת_בעיות_על_מפה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצגת בעיות על מפה</a>
+            <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
+            <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
+            <a href="עדכון_פרויקטים_ויוזמות_עירוניות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">עדכון פרויקטים ויוזמות עירוניות</a>
+            <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>
+            <a href="גרף סוגי דוחות וזמן טיפול ממוצע.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" id="reportLink">גרף סוגי דוחות וזמן טיפול ממוצע</a>
+            <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
+        </div>
+    </div>
+
+    <!-- הצגת כותרת -->
+    <div id="navbarTitle">
+        <h2 class="w3-center">גרף סוגי דוחות וזמן טיפול ממוצע</h2>
+    </div>
+
+    <!-- תוכן -->
+    <div class="container">
+        <canvas id="reportChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("DOM Loaded, checking user role...");
+            const userRole = localStorage.getItem('userRole');
+            console.log("User role is:", userRole);  // הדפסה של ערך המשתמש
+
+            // לא משנה מה התפקיד של המשתמש, הגרף יוצג
+            document.getElementById('navbar').style.display = 'block';
+            document.getElementById('reportLink').style.display = 'inline-block';
+        });
+
+        // נתוני דוגמה עבור סוגי דוחות וזמן טיפול ממוצע (בשעות)
+        const reportData = [
+            { type: "בעיות חשמל", averageTime: 3 },
+            { type: "בעיות מים", averageTime: 5 },
+            { type: "בעיות תחבורה", averageTime: 8 },
+            { type: "נקיון רחובות", averageTime: 2 },
+            { type: "פיתוח עירוני", averageTime: 12 },
+        ];
+
+        // חילוץ סוגי הדוחות וזמני הטיפול
+        const reportTypes = reportData.map(report => report.type);
+        const averageTimes = reportData.map(report => report.averageTime);
+
+        // יצירת גרף באמצעות Chart.js
+        const ctx = document.getElementById('reportChart').getContext('2d');
+        const reportChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: reportTypes,
+                datasets: [{
+                    label: 'זמן טיפול ממוצע (שעות)',
+                    data: averageTimes,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'שעות'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'סוגי דוחות'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        function dganjoLogout() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert("התנתקת בהצלחה!");
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

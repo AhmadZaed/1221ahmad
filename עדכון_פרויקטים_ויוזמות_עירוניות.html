@@ -77,6 +77,16 @@
         .btn-cancel:hover {
             background-color: #e31a1a;
         }
+
+        #suggestionToWorkers {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffeb3b;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -92,6 +102,7 @@
             <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
             <a href="עדכון_פרויקטים_ויוזמות_עירוניות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">עדכון פרויקטים ויוזמות עירוניות</a>
             <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>
+            <a href="גרף סוגי דוחות וזמן טיפול ממוצע.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" id="reportLink">גרף סוגי דוחות וזמן טיפול ממוצע</a>
             <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
         </div>
     </div>
@@ -135,6 +146,11 @@
                 <button type="button" class="btn btn-cancel" onclick="cancelForm()">ביטול</button>
             </div>
         </form>
+
+        <!-- הצעה לעובדים רק אם המשתמש הוא תושב -->
+        <div id="suggestionToWorkers">
+            <h3>הצעה לעובדים: יש להוסיף את הפרויקט הנוכחי לרשימת הפרויקטים של העיר</h3>
+        </div>
     </div>
 
     <script>
@@ -186,6 +202,27 @@
             sessionStorage.clear();
             alert("התנתקת בהצלחה!");
             window.location.href = 'login.html'; // מעבר לדף הכניסה
+        }
+
+        // טוען את סוג המשתמש ומסתיר את הקישורים המתאימים
+        document.addEventListener("DOMContentLoaded", function () {
+            checkUserType();
+        });
+
+        function checkUserType() {
+            const userType = localStorage.getItem("userType");
+
+            if (userType === "resident") {
+                // הצגת הצעה לעובדים אם המשתמש הוא תושב
+                document.getElementById('suggestionToWorkers').style.display = 'block';
+
+                // אפשר להסתיר כאן קישורים אם נדרשת הצגה אחרת
+            }
+        }
+
+        // הגדרת סוג המשתמש בעת התחברות
+        function setUserType(userType) {
+            localStorage.setItem("userType", userType);
         }
     </script>
 
