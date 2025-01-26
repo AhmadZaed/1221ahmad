@@ -83,6 +83,26 @@
             background-color: #ff4d4d; 
             color: white;
         }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .policy-btn {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .policy-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -97,19 +117,34 @@
         <form id="residentLoginForm" style="display:none;" onsubmit="handleLogin(event, 'resident')">
             <input type="text" placeholder="שם משתמש" name="residentUsername" required>
             <input type="password" placeholder="סיסמה" name="residentPassword" required>
+            <p class="error-message" id="residentError"></p>
             <button type="submit" class="loginbtn">התחבר כתושב</button>
         </form>
 
         <form id="workerLoginForm" style="display:none;" onsubmit="handleLogin(event, 'worker')">
             <input type="text" placeholder="שם משתמש" name="workerUsername" required>
             <input type="password" placeholder="סיסמה" name="workerPassword" required>
+            <p class="error-message" id="workerError"></p>
             <button type="submit" class="loginbtn">התחבר כעובד</button>
         </form>
 
         <form id="adminLoginForm" style="display:none;" onsubmit="handleLogin(event, 'admin')">
             <input type="text" placeholder="שם משתמש" name="adminUsername" required>
             <input type="password" placeholder="סיסמה" name="adminPassword" required>
+            <p class="error-message" id="adminError"></p>
             <button type="submit" class="loginbtn">התחבר כמנהל</button>
+        </form>
+
+        <button class="policy-btn" onclick="showPasswordPolicy()">מדיניות סיסמאות</button>
+
+        <button class="policy-btn" onclick="showChangePasswordForm()">שינוי סיסמה</button>
+
+        <form id="changePasswordForm" style="display:none; margin-top: 20px;" onsubmit="handleChangePassword(event)">
+            <input type="password" placeholder="סיסמה נוכחית" name="currentPassword" required>
+            <input type="password" placeholder="סיסמה חדשה" name="newPassword" required>
+            <input type="password" placeholder="אימות סיסמה חדשה" name="confirmNewPassword" required>
+            <p class="error-message" id="changePasswordError"></p>
+            <button type="submit" class="loginbtn">שנה סיסמה</button>
         </form>
     </div>
 
@@ -128,13 +163,62 @@
             }
         }
 
+        function validatePassword(password) {
+            const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            return regex.test(password);
+        }
+
         function handleLogin(event, userType) {
             event.preventDefault();
-            var username = event.target[0].value;  // קבלת שם המשתמש מהטופס
-            localStorage.setItem("username", username);  // שמירת שם המשתמש ב-localStorage
+            const username = event.target[0].value;
+            const password = event.target[1].value;
+
+            if (!validatePassword(password)) {
+                const errorElement = document.getElementById(`${userType}Error`);
+                errorElement.textContent = "הסיסמה חייבת להכיל לפחות 8 תווים, אותיות, מספרים ותו מיוחד.";
+                return;
+            }
+
+            localStorage.setItem("username", username);
+            localStorage.setItem("userType", userType);
             alert("התחברת בהצלחה כ-" + userType);
             window.location.href = "home.html"; // הפניה חזרה לדף הבית לאחר התחברות
+        }
+
+        function showPasswordPolicy() {
+            alert(`מדיניות סיסמאות:
+- לפחות 8 תווים.
+- לפחות אות אחת (A-Z, a-z).
+- לפחות ספרה אחת (0-9).
+- לפחות תו מיוחד (@$!%*#?&).`);
+        }
+
+        function showChangePasswordForm() {
+            document.getElementById('changePasswordForm').style.display = 'block';
+        }
+
+        function handleChangePassword(event) {
+            event.preventDefault();
+            const currentPassword = event.target[0].value;
+            const newPassword = event.target[1].value;
+            const confirmNewPassword = event.target[2].value;
+
+            if (!validatePassword(newPassword)) {
+                document.getElementById('changePasswordError').textContent = "הסיסמה החדשה חייבת לעמוד בדרישות המדיניות.";
+                return;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                document.getElementById('changePasswordError').textContent = "הסיסמאות החדשות אינן תואמות.";
+                return;
+            }
+
+            alert("הסיסמה שונתה בהצלחה.");
+            document.getElementById('changePasswordForm').reset();
+            document.getElementById('changePasswordError').textContent = "";
+            document.getElementById('changePasswordForm').style.display = 'none';
         }
     </script>
 </body>
 </html>
+
