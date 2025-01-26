@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>הוספת מודול חדש</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+            background: linear-gradient(135deg, white, #ff4d4d);
+            color: black;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 400px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #ff4d4d;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .form-container a {
+            display: block;
+            margin-top: 15px;
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+        .form-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>הוספת מודול חדש</h2>
+        <form onsubmit="addNewModule(event)">
+            <input type="text" id="newModuleName" placeholder="הכנס שם מודול חדש..." required>
+            <button type="submit">הוסף מודול</button>
+        </form>
+        <a href="home.html">חזור לעמוד הבית</a>
+    </div>
+
+    <script>
+        function addNewModule(event) {
+            event.preventDefault();
+            const moduleName = document.getElementById('newModuleName').value.trim();
+            if (moduleName) {
+                alert(`המודול "${moduleName}" נוסף בהצלחה!`);
+                document.getElementById('newModuleName').value = ''; // איפוס השדה
+            }
+        }
+    </script>
+</body>
+</html>

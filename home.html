@@ -37,60 +37,84 @@
             text-align: center;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        #scrollToTop, #scrollToBottom {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 15px;
-            cursor: pointer;
-            font-size: 18px;
-            display: none;
-            z-index: 1000;
-        }
-
-        #scrollToBottom {
-            bottom: 70px;
-        }
-
-        #scrollToTop:hover, #scrollToBottom:hover {
-            background-color: #e63939;
-        }
-
-        .icon-large {
-            font-size: 100px;
-        }
-
-        .icon-container {
-            width: 50%;
-            margin-left: auto;
-            margin-right: 0;
-            text-align: right;
-        }
-
-        .content-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .text-content {
-            flex: 1;
-        }
-
         .admin-panel {
             background-color: #ff4d4d;
             padding: 20px;
             border-radius: 10px;
-            color: white;
+            color: black;
             margin-top: 20px;
+        }
+
+        .user-management {
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-management h4 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .user-management table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .user-management th, .user-management td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .user-management th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .btn-delete {
+            background-color: #e63939;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn-delete:hover {
+            background-color: #c53030;
+        }
+
+        .btn-manage {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        .btn-manage:hover {
+            background-color: #45a049;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-box input {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -105,11 +129,10 @@
             <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
             <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
             <a href="עדכון_פרויקטים_ויוזמות_עירוניות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">עדכון פרויקטים ויוזמות עירוניות</a>
-            <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>
+            
             <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
         </div>
     </div>
-    
 
     <!-- Main content -->
     <div id="main-content" class="w3-container" style="display:block;">
@@ -119,92 +142,134 @@
             <p class="w3-xlarge" style="color:white;">Helping residents, workers, and admins manage issues efficiently.</p>
         </header>
 
-        <!-- Main Content Section -->
-        <div class="w3-row-padding w3-padding-64 w3-container">
-            <div class="w3-content">
-                <!-- Left Side Content -->
-                <div class="content-row">
-                    <div class="text-content">
-                        <h1>Welcome</h1>
-                        <h5 class="w3-padding-32">This website allows citizens and workers to collaborate on fixing issues in the community.</h5>
-                        <p class="w3-text-grey">The platform provides an easy way for users to report problems and issues, such as road hazards, broken streetlights, and more, helping local authorities address them quickly.</p>
-                    </div>
-
-                    <!-- Right Side Icon (גדול וממוקם במרכז) -->
-                    <div class="icon-container">
-                        <i class="fa fa-anchor w3-padding-64 w3-text-red icon-large"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Panel (only visible to admin) -->
+        <!-- Admin Panel -->
         <div id="adminContent" class="admin-panel" style="display: none;">
             <h3>Admin Panel</h3>
             <p>As an admin, you can manage users, view statistics, and perform various administrative tasks.</p>
-            <button class="w3-button w3-white w3-border w3-border-black">Manage Users</button>
-            <button class="w3-button w3-white w3-border w3-border-black">View Statistics</button>
-        </div>
+            <button class="btn-manage" onclick="scrollToUserManagement()">ניהול הרשאות משתמשים</button>
+            <button class="btn-manage" onclick="navigateTo('הוספת_מודול.html')">הוספת מודול</button>
 
+
+            
+
+            <!-- User Management Section -->
+            <div id="userManagement" class="user-management">
+                <h4>ניהול הרשאות משתמשים</h4>
+
+                <div class="search-box">
+                    <input type="text" id="searchInput" onkeyup="searchUsers()" placeholder="חפש משתמש לפי שם או אימייל...">
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>שם משתמש</th>
+                            <th>אימייל</th>
+                            <th>תפקיד</th>
+                            <th>פעולות</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTable">
+                        <!-- Users will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <!-- Scroll buttons -->
-    <button id="scrollToTop" onclick="scrollToTop()">▲</button>
-    <button id="scrollToBottom" onclick="scrollToBottom()">▼</button>
-
     <script>
-        // הצגת כפתורים לפי מיקום
-        window.onscroll = function () {
-            const scrollToTopBtn = document.getElementById("scrollToTop");
-            const scrollToBottomBtn = document.getElementById("scrollToBottom");
-
-            if (window.scrollY > 200) {
-                scrollToTopBtn.style.display = "block";
-            } else {
-                scrollToTopBtn.style.display = "none";
+        document.addEventListener("DOMContentLoaded", function () {
+            // הצגת תוכן המנהל רק אם המשתמש הוא אדמין
+            if (localStorage.getItem("userType") === "admin") {
+                document.getElementById("adminContent").style.display = "block";
+                loadUsers();
             }
+        });
 
-            if (window.innerHeight + window.scrollY < document.body.offsetHeight - 200) {
-                scrollToBottomBtn.style.display = "block";
-            } else {
-                scrollToBottomBtn.style.display = "none";
-            }
-        };
-
-        // פונקציה לגלילה למעלה
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Scroll to User Management Section
+        function scrollToUserManagement() {
+            document.getElementById('userManagement').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // פונקציה לגלילה למטה
-        function scrollToBottom() {
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        // Navigate to new modules
+        function navigateTo(module) {
+            window.location.href = module;
         }
 
-        function dganjoLogout() {
-            localStorage.clear();
-            sessionStorage.clear();
-            alert("התנתקת בהצלחה!");
-            window.location.href = 'login.html'; // מעבר לדף הבית
+        // שליפת משתמשים (מדומה)
+        function loadUsers() {
+            const users = [
+                { username: "user1", email: "user1@example.com", role: "resident" },
+                { username: "worker1", email: "worker1@example.com", role: "worker" },
+                { username: "admin1", email: "admin1@example.com", role: "admin" },
+                { username: "דניאל", email: "daniel@example.com", role: "resident" }
+            ];
+
+            const userTable = document.getElementById("userTable");
+            users.forEach(user => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <select onchange="updateRole('${user.username}', this.value)">
+                            <option value="resident" ${user.role === "resident" ? "selected" : ""}>תושב</option>
+                            <option value="worker" ${user.role === "worker" ? "selected" : ""}>עובד</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteUser('${user.username}')">מחק</button>
+                    </td>
+                `;
+                userTable.appendChild(row);
+            });
         }
 
-        // Check if the user is an admin and show admin content
-        window.onload = function() {
-            var userType = localStorage.getItem("userType");
+        // עדכון תפקיד משתמש
+        function updateRole(username, newRole) {
+            alert(`התפקיד של ${username} עודכן ל-${newRole}`);
+        }
 
-            if (userType === 'admin') {
-                document.getElementById('adminContent').style.display = 'block';
+        // מחיקת משתמש
+        function deleteUser(username) {
+            if (confirm(`האם אתה בטוח שברצונך למחוק את ${username}?`)) {
+                alert(`${username} נמחק`);
+                const userTable = document.getElementById("userTable");
+                const rows = userTable.getElementsByTagName("tr");
+                for (let i = 0; i < rows.length; i++) {
+                    if (rows[i].cells[0].textContent === username) {
+                        userTable.deleteRow(i);
+                        break;
+                    }
+                }
             }
-        };
+        }
+
+        // חיפוש משתמשים בטבלה
+        function searchUsers() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const rows = document.querySelectorAll("#userTable tr");
+
+            rows.forEach(row => {
+                const username = row.cells[0].textContent.toLowerCase();
+                const email = row.cells[1].textContent.toLowerCase();
+                if (username.includes(input) || email.includes(input)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
     </script>
 </body>
 </html>
 
-<!-- Tracking Actions Page -->
-<!DOCTYPE html>
-<html lang="he">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מעקב אחרי פעולות</title>
+
+
+
+
+
+
+
+
    
