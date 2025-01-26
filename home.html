@@ -116,6 +116,30 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
+        .admin-updates {
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-updates h4 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .admin-updates ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .admin-updates li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -149,7 +173,174 @@
             <button class="btn-manage" onclick="scrollToUserManagement()">ניהול הרשאות משתמשים</button>
             <button class="btn-manage" onclick="navigateTo('הוספת_מודול.html')">הוספת מודול</button>
 
-
+            <!-- Updates Section -->
+            <div id="adminUpdates" class="admin-updates">
+                <h4>עדכונים אחרונים - בעיות טכניות ומשימות תחזוקה</h4>
+            
+                <!-- Filters and Sorting -->
+                <div class="filter-sort">
+                    <label for="filterStatus">סנן לפי סטטוס:</label>
+                    <select id="filterStatus" onchange="filterUpdates()" class="filter-dropdown">
+                        <option value="all">הכל</option>
+                        <option value="בטיפול">בטיפול</option>
+                        <option value="בהמתנה">בהמתנה</option>
+                        <option value="טופל">טופל</option>
+                    </select>
+            
+                    <label for="sortDate">מיין לפי:</label>
+                    <select id="sortDate" onchange="sortUpdates()" class="filter-dropdown">
+                        <option value="latest">מהחדש לישן</option>
+                        <option value="oldest">מהישן לחדש</option>
+                    </select>
+                </div>
+            
+                <!-- Task Cards -->
+                <div id="updatesCards" class="cards-container">
+                    <div class="card" data-status="בטיפול" data-date="2025-01-25">
+                        <h5>כשל בהתחברות המשתמשים</h5>
+                        <p>משתמשים מדווחים על שגיאה 500 בעת ניסיון התחברות.</p>
+                        <p class="status-text"><strong>סטטוס:</strong> <span class="status status-in-progress">בטיפול</span></p>
+                        <p class="date">25/01/2025</p>
+                    </div>
+            
+                    <div class="card" data-status="בהמתנה" data-date="2025-01-25">
+                        <h5>טופס הגשת דיווחים לא נטען</h5>
+                        <p>בעיה בממשק ה-API לקבלת טפסים.</p>
+                        <p class="status-text"><strong>סטטוס:</strong> <span class="status status-pending">בהמתנה</span></p>
+                        <p class="date">25/01/2025</p>
+                    </div>
+            
+                    <div class="card" data-status="טופל" data-date="2025-01-24">
+                        <h5>זמן טעינה גבוה לדף המפה</h5>
+                        <p>תשתית השרתים עמוסה או בעיה בקובץ JavaScript.</p>
+                        <p class="status-text"><strong>סטטוס:</strong> <span class="status status-resolved">טופל</span></p>
+                        <p class="date">24/01/2025</p>
+                    </div>
+                </div>
+            </div>
+            
+            <style>
+                .admin-updates {
+                    margin-top: 20px;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                    padding: 20px;
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                }
+            
+                .admin-updates h4 {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    color: #333;
+                }
+            
+                .filter-sort {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                    margin-bottom: 20px;
+                }
+            
+                .filter-dropdown {
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    font-size: 16px;
+                }
+            
+                .cards-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                    justify-content: center;
+                }
+            
+                .card {
+                    background: white;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    padding: 15px;
+                    width: 300px;
+                    text-align: left;
+                    position: relative;
+                }
+            
+                .card h5 {
+                    margin-top: 0;
+                    color: #333;
+                    font-size: 18px;
+                }
+            
+                .card p {
+                    color: #666;
+                    margin: 10px 0;
+                }
+            
+                .status-text {
+                    margin-top: 10px;
+                    font-weight: bold;
+                }
+            
+                .status {
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                    font-size: 12px;
+                    font-weight: bold;
+                }
+            
+                .status-in-progress {
+                    background: #ffc107;
+                    color: #fff;
+                }
+            
+                .status-pending {
+                    background: #ff5722;
+                    color: #fff;
+                }
+            
+                .status-resolved {
+                    background: #4caf50;
+                    color: #fff;
+                }
+            
+                .date {
+                    font-size: 12px;
+                    color: #aaa;
+                    text-align: right;
+                }
+            </style>
+            
+            <script>
+                // סינון עדכונים לפי סטטוס
+                function filterUpdates() {
+                    const filterValue = document.getElementById('filterStatus').value;
+                    const cards = document.querySelectorAll('.card');
+            
+                    cards.forEach(card => {
+                        const status = card.getAttribute('data-status');
+                        if (filterValue === 'all' || status === filterValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            
+                // מיון עדכונים לפי תאריך
+                function sortUpdates() {
+                    const sortValue = document.getElementById('sortDate').value;
+                    const cardsContainer = document.getElementById('updatesCards');
+                    const cards = Array.from(cardsContainer.querySelectorAll('.card'));
+            
+                    cards.sort((a, b) => {
+                        const dateA = new Date(a.getAttribute('data-date'));
+                        const dateB = new Date(b.getAttribute('data-date'));
+                        return sortValue === 'latest' ? dateB - dateA : dateA - dateB;
+                    });
+            
+                    cards.forEach(card => cardsContainer.appendChild(card));
+                }
+            </script>
             
 
             <!-- User Management Section -->
@@ -260,15 +451,18 @@
                 }
             });
         }
+
         function dganjoLogout() {
-      localStorage.clear();
-      sessionStorage.clear();
-      alert("התנתקת בהצלחה!");
-      window.location.href = 'login.html'; // מעבר לדף הבית
-    }
-  </script>
+    localStorage.clear();
+    sessionStorage.clear();
+    alert("התנתקת בהצלחה!");
+    window.location.href = 'login.html'; // מעבר לדף הבית
+}
+</script>
 </body>
 </html>
+
+
 
 
 
