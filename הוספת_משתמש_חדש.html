@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-section input, .form-section select, .form-section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .form-section button {
+            background-color: #ff0000;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-section button:hover {
+            background-color: #b30000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        table th {
+            background-color: #f4f4f4;
+        }
+        .hidden {
+            display: none;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ניהול משתמשים</h1>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <h2>הוספת משתמש חדש</h2>
+            <label for="username">שם משתמש:</label>
+            <input type="text" id="username" placeholder="הכנס שם משתמש">
+
+            <label for="role">תפקיד:</label>
+            <select id="role" onchange="toggleDepartment()">
+                <option value="user">תושב</option>
+                <option value="admin">אדמין</option>
+                <option value="manager">עובד</option>
+            </select>
+
+            <label for="department">מחלקה:</label>
+            <select id="department">
+                <option value="מים">מים</option>
+                <option value="חשמל">חשמל</option>
+                <option value="תחבורה">תחבורה</option>
+                <option value="ניקיון">ניקיון</option>
+            </select>
+
+            <label for="password">סיסמה ראשונית:</label>
+            <input type="password" id="password" placeholder="הכנס סיסמה ראשונית">
+
+            <button onclick="addUser()">הוסף משתמש</button>
+        </div>
+
+        <!-- Search Section -->
+        <input type="text" class="search-input" id="searchInput" onkeyup="searchUsers()" placeholder="חפש משתמשים...">
+
+        <!-- Users Table -->
+        <h2>משתמשים קיימים</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>שם משתמש</th>
+                    <th>תפקיד</th>
+                    <th>מחלקה</th>
+                    <th>סיסמה ראשונית</th>
+                </tr>
+            </thead>
+            <tbody id="usersTable">
+                <!-- Users will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const users = [
+            { username: "יוסי לוי", role: "עובד", department: "מים", password: "1234" },
+            { username: "דנה כהן", role: "אדמין", department: "N/A", password: "5678" }
+        ];
+
+        function populateUsersTable() {
+            const tableBody = document.getElementById("usersTable");
+            tableBody.innerHTML = "";
+
+            users.forEach(user => {
+                const row = `<tr>
+                    <td>${user.username}</td>
+                    <td>${user.role}</td>
+                    <td>${user.department}</td>
+                    <td>${user.password}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function addUser() {
+            const username = document.getElementById("username").value;
+            const role = document.getElementById("role").value;
+            const department = document.getElementById("department").value;
+            const password = document.getElementById("password").value;
+
+            if (!username || !password) {
+                alert("נא למלא את כל השדות הנדרשים.");
+                return;
+            }
+
+            users.push({ username, role, department: role === "user" || role === "admin" ? "N/A" : department, password });
+            populateUsersTable();
+
+            // Clear form inputs
+            document.getElementById("username").value = "";
+            document.getElementById("role").value = "user";
+            document.getElementById("department").value = "מים";
+            document.getElementById("password").value = "";
+
+            alert("משתמש נוסף בהצלחה!");
+        }
+
+        function toggleDepartment() {
+            const role = document.getElementById("role").value;
+            const departmentField = document.getElementById("department");
+
+            if (role === "user" || role === "admin") {
+                departmentField.classList.add("hidden");
+            } else {
+                departmentField.classList.remove("hidden");
+            }
+        }
+
+        function searchUsers() {
+            const searchValue = document.getElementById("searchInput").value.toLowerCase();
+            const rows = document.querySelectorAll("#usersTable tr");
+
+            rows.forEach(row => {
+                const username = row.cells[0].textContent.toLowerCase();
+                const role = row.cells[1].textContent.toLowerCase();
+                const department = row.cells[2].textContent.toLowerCase();
+
+                if (username.includes(searchValue) || role.includes(searchValue) || department.includes(searchValue)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        // Initialize table
+        populateUsersTable();
+    </script>
+</body>
+</html>
