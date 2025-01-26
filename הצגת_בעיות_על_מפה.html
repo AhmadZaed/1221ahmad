@@ -46,6 +46,9 @@
         table th {
             background-color: #f4f4f4;
         }
+        .form-group {
+            margin-bottom: 20px;
+        }
         .content {
             margin-top: 80px; /* פתרון לבעיה שהניווט מסתיר את התוכן */
         }
@@ -62,127 +65,168 @@
             <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
             <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
             <a href="עדכון_פרויקטים_ויוזמות_עירוניות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">עדכון פרויקטים ויוזמות עירוניות</a>
-            <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>\
+            <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>
             <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
-            
         </div>
     </div>
-    
 
-<div class="content">
-    <div class="container">
-        <!-- טבלה של הדוחות -->
-        <table>
-            <thead>
-                <tr>
-                    <th>תיאור</th>
-                    <th>סטטוס</th>
-                    <th>דחיפות</th>
-                </tr>
-            </thead>
-            <tbody id="reports-table-body">
-                <!-- השורות יתווספו דינאמית -->
-            </tbody>
-        </table>
-        <!-- מפה -->
-        <div id="map"></div>
+    <div class="content">
+        <div class="container">
+            <!-- טופס סינון דוחות -->
+            <div class="form-group">
+                <label for="priorityFilter">סנן לפי דחיפות:</label>
+                <select id="priorityFilter" class="form-control">
+                    <option value="all">הכל</option>
+                    <option value="1">גבוהה</option>
+                    <option value="2">בינונית</option>
+                    <option value="3">נמוכה</option>
+                </select>
+            </div>
+
+            <!-- טבלה של הדוחות -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>תיאור</th>
+                        <th>סטטוס</th>
+                        <th>דחיפות</th>
+                    </tr>
+                </thead>
+                <tbody id="reports-table-body">
+                    <!-- השורות יתווספו דינאמית -->
+                </tbody>
+            </table>
+
+            <!-- מפה -->
+            <div id="map"></div>
+        </div>
     </div>
-</div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    // נתוני הדוחות ממעקב אחרי פעיות
-    let reports = JSON.parse(localStorage.getItem('reports')) || [
-        { description: 'דוח 1', status: 'ממתין', priority: 1, latitude: 31.0461, longitude: 34.8516 },
-        { description: 'דוח 2', status: 'בטיפול', priority: 2, latitude: 31.0462, longitude: 34.8517 },
-        { description: 'דוח 3', status: 'טופל', priority: 3, latitude: 31.0463, longitude: 34.8518 }
-    ];
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // נתוני הדוחות ממעקב אחרי פעיות
+        let reports = JSON.parse(localStorage.getItem('reports')) || [
+            { description: 'דוח 1', status: 'ממתין', priority: 1, latitude: 31.0461, longitude: 34.8516 },
+            { description: 'דוח 2', status: 'בטיפול', priority: 2, latitude: 31.0462, longitude: 34.8517 },
+            { description: 'דוח 3', status: 'טופל', priority: 3, latitude: 31.0463, longitude: 34.8518 }
+        ];
 
-    // מפה
-    const map = L.map('map').setView([31.0461, 34.8516], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+        // צבעים לפי סטטוס
+        const statusColors = {
+            'ממתין': 'red',
+            'בטיפול': 'orange',
+            'טופל': 'green'
+        };
 
-    // צבעים לפי סטטוס
-    const statusColors = {
-        'ממתין': 'red',
-        'בטיפול': 'orange',
-        'טופל': 'green'
-    };
+        // מפה
+        const map = L.map('map').setView([31.0461, 34.8516], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
 
-    // הוספת נקודות למפה
-    function displayReportsOnMap() {
-        reports.forEach(report => {
-            const marker = L.circleMarker([report.latitude, report.longitude], {
-                color: statusColors[report.status],
-                radius: getUrgencyRadius(report.priority) // גודל הנקודה לפי דחיפות
-            }).addTo(map);
+        // הוספת נקודות למפה
+        function displayReportsOnMap(filteredReports) {
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.CircleMarker) {
+                    map.removeLayer(layer);
+                }
+            });
 
-            marker.bindPopup(`
-                <b>תיאור:</b> ${report.description}<br>
-                <b>סטטוס:</b> ${report.status}<br>
-                <b>דחיפות:</b> ${getPriorityText(report.priority)}
-            `);
-        });
-    }
+            filteredReports.forEach(report => {
+                const marker = L.circleMarker([report.latitude, report.longitude], {
+                    color: statusColors[report.status],
+                    radius: getUrgencyRadius(report.priority)
+                }).addTo(map);
 
-    // גודל הנקודה לפי רמת הדחיפות
-    function getUrgencyRadius(priority) {
-        switch (priority) {
-            case 1:
-                return 12;
-            case 2:
-                return 8;
-            case 3:
-                return 5;
-            default:
-                return 6;
+                marker.bindPopup(`
+                    <b>תיאור:</b> ${report.description}<br>
+                    <b>סטטוס:</b> ${report.status}<br>
+                    <b>דחיפות:</b> ${getPriorityText(report.priority)}
+                `);
+            });
         }
-    }
 
-    // תרגום המספר לדחיפות
-    function getPriorityText(priority) {
-        switch (priority) {
-            case 1:
-                return 'גבוהה';
-            case 2:
-                return 'בינונית';
-            case 3:
-                return 'נמוכה';
-            default:
-                return 'לא הוגדרה';
+        // גודל הנקודה לפי רמת הדחיפות
+        function getUrgencyRadius(priority) {
+            switch (priority) {
+                case 1:
+                    return 12;
+                case 2:
+                    return 8;
+                case 3:
+                    return 5;
+                default:
+                    return 6;
+            }
         }
-    }
 
-    // הצגת הטבלה
-    function displayReportsInTable() {
-        const tableBody = document.getElementById('reports-table-body');
-        tableBody.innerHTML = ''; // איפוס התוכן הקודם
-        reports.forEach(report => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${report.description}</td>
-                <td>${report.status}</td>
-                <td>${getPriorityText(report.priority)}</td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
+        // תרגום המספר לדחיפות
+        function getPriorityText(priority) {
+            switch (priority) {
+                case 1:
+                    return 'גבוהה';
+                case 2:
+                    return 'בינונית';
+                case 3:
+                    return 'נמוכה';
+                default:
+                    return 'לא הוגדרה';
+            }
+        }
 
-    // הצגת הדוחות על המפה ובטבלה
-    displayReportsOnMap();
-    displayReportsInTable();
+        // מיון דוחות לפי דחיפות
+        function sortReportsByPriority(reports) {
+            return reports.sort((a, b) => a.priority - b.priority); // מיון לפי דחיפות, מהגבוה לנמוך
+        }
 
-function dganjoLogout() {
-    localStorage.clear();
-    sessionStorage.clear();
-    alert("התנתקת בהצלחה!");
-    window.location.href = 'login.html'; // מעבר לדף הבית
-}
+        // הצגת הדוחות בטבלה
+        function displayReportsInTable(filteredReports) {
+            const tableBody = document.getElementById('reports-table-body');
+            tableBody.innerHTML = ''; // איפוס התוכן הקודם
+            filteredReports.forEach(report => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${report.description}</td>
+                    <td>${report.status}</td>
+                    <td>${getPriorityText(report.priority)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
 
+        // אירוע שינוי עבור תיבת הסינון
+        document.getElementById('priorityFilter').addEventListener('change', filterReports);
 
+        // פונקציה לסינון דוחות
+        function filterReports() {
+            const selectedPriority = document.getElementById('priorityFilter').value;
 
-</script>
+            let filteredReports = reports;
+
+            // אם נבחר "הכל", כל הדוחות יוצגו
+            if (selectedPriority !== 'all') {
+                filteredReports = reports.filter(report => report.priority.toString() === selectedPriority);
+            }
+
+            // מיון הדוחות לפי דחיפות
+            filteredReports = sortReportsByPriority(filteredReports);
+
+            // הצגת הדוחות הממוין על המפה ובטבלה
+            displayReportsOnMap(filteredReports);
+            displayReportsInTable(filteredReports);
+        }
+
+        // הצגת הדוחות על המפה ובטבלה
+        displayReportsOnMap(reports);
+        displayReportsInTable(reports);
+
+        // פונקציית יציאה
+        function dganjoLogout() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert("התנתקת בהצלחה!");
+            window.location.href = 'login.html'; // מעבר לדף הבית
+        }
+    </script>
 </body>
 </html>

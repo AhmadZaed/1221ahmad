@@ -25,9 +25,14 @@
             padding: 20px;
         }
 
-        .w3-bar-item:hover {
-            background-color: #ff4d4d !important;
-            color: white !important;
+        .w3-third {
+            text-align: right; /* העברת האייקון לימין */
+            padding-top: 40px;
+        }
+
+        .w3-third i {
+            font-size: 200px; /* הגדלת האייקון לגדול מאוד */
+            color: #ff4d4d; /* צבע אדום */
         }
 
         header {
@@ -153,18 +158,30 @@
             <a href="יצירת_קשר_עם_מחלקות_בערייה.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">יצירת קשר עם מחלקות בערייה</a>
             <a href="הצעת רעיונות לשיפור העיר.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">הצעת רעיונות לשיפור העיר</a>
             <a href="עדכון_פרויקטים_ויוזמות_עירוניות.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">עדכון פרויקטים ויוזמות עירוניות</a>
-            
+            <a href="פרויקטים_קיימים.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">פרויקטים קיימים</a>
             <a href="#" class="w3-bar-item w3-button w3-right logoutbtn" onclick="dganjoLogout()">Logout</a>
         </div>
     </div>
 
     <!-- Main content -->
     <div id="main-content" class="w3-container" style="display:block;">
-        <!-- Header Section -->
         <header class="w3-container w3-red w3-center" style="padding:128px 16px">
             <h1 class="w3-margin w3-jumbo" style="color:white;">Beer 7 360</h1>
             <p class="w3-xlarge" style="color:white;">Helping residents, workers, and admins manage issues efficiently.</p>
         </header>
+        <div class="w3-row-padding w3-padding-64 w3-container">
+            <div class="w3-content">
+                <div class="w3-twothird">
+                    <h1>Welcome</h1>
+                    <h5 class="w3-padding-32">This website allows citizens and workers to collaborate on fixing issues in the community.</h5>
+                    <p class="w3-text-grey">The platform provides an easy way for users to report problems and issues, such as road hazards, broken streetlights, and more, helping local authorities address them quickly.</p>
+                </div>
+                <div class="w3-third">
+                    <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <!-- Admin Panel -->
          
