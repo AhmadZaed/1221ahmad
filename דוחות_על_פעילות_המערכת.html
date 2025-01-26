@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דוחות פעילות המערכת</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .filter-section {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .filter-section select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+        }
+        .summary-item {
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        .summary-item h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #007bff;
+        }
+        .summary-item p {
+            font-size: 18px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        table th {
+            background-color: #f4f4f4;
+        }
+        .chart-container {
+            margin: 20px 0;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            background-color: #28a745;
+        }
+        .buttons button:hover {
+            background-color: #218838;
+        }
+        .previous-reports {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .previous-reports h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #333;
+        }
+        .previous-reports ul {
+            list-style: none;
+            padding: 0;
+        }
+        .previous-reports li {
+            margin-bottom: 10px;
+        }
+        .previous-reports a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .previous-reports a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>דוחות פעילות המערכת</h1>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <label>
+                סינון לפי סוג בעיה:
+                <select id="filterReportType">
+                    <option value="all">הכל</option>
+                    <option value="בעיות מים">בעיות מים</option>
+                    <option value="בעיות חשמל">בעיות חשמל</option>
+                    <option value="פינוי אשפה">פינוי אשפה</option>
+                    <option value="תקלות תחבורה">תקלות תחבורה</option>
+                </select>
+            </label>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary">
+            <div class="summary-item">
+                <h3 id="totalReports">0</h3>
+                <p>סה"כ פניות</p>
+            </div>
+            <div class="summary-item">
+                <h3 id="averageTime">0</h3>
+                <p>זמן טיפול ממוצע (שעות)</p>
+            </div>
+            <div class="summary-item">
+                <h3 id="topReportType">-</h3>
+                <p>הבעיה המובילה</p>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>סוג בעיה</th>
+                    <th>כמות פניות</th>
+                    <th>זמן טיפול ממוצע (שעות)</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+                <!-- Data will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <!-- Chart Section -->
+        <div class="chart-container">
+            <canvas id="reportChart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <button onclick="exportCSV()">ייצוא ל-CSV</button>
+            <button onclick="exportPDF()">ייצוא ל-PDF</button>
+        </div>
+
+        <!-- Previous Reports Section -->
+        <div class="previous-reports">
+            <h2>דוחות קודמים להורדה</h2>
+            <ul id="previousReportsList">
+                <!-- Previous reports will be dynamically added here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data
+        let reportData = [
+            { type: "בעיות מים", count: 150, averageTime: 3 },
+            { type: "בעיות חשמל", count: 120, averageTime: 4 },
+            { type: "פינוי אשפה", count: 100, averageTime: 2 },
+            { type: "תקלות תחבורה", count: 80, averageTime: 6 },
+        ];
+
+        // Example of Previous Reports
+        let previousReports = [
+            { name: "דוח פעילות ינואר 2025", link: "reports/january_2025.csv" },
+            { name: "דוח פעילות דצמבר 2024", link: "reports/december_2024.csv" },
+        ];
+
+        // Populate Table
+        function populateTable(data) {
+            const tableBody = document.getElementById("dataTable");
+            tableBody.innerHTML = "";
+
+            data.forEach(item => {
+                const row = `<tr>
+                    <td>${item.type}</td>
+                    <td>${item.count}</td>
+                    <td>${item.averageTime}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Update Summary
+        function updateSummary(data) {
+            const totalReports = data.reduce((sum, item) => sum + item.count, 0);
+            const averageTime = (data.reduce((sum, item) => sum + item.averageTime * item.count, 0) / totalReports).toFixed(2);
+            const topReportType = data.sort((a, b) => b.count - a.count)[0]?.type || "-";
+
+            document.getElementById("totalReports").innerText = totalReports;
+            document.getElementById("averageTime").innerText = averageTime;
+            document.getElementById("topReportType").innerText = topReportType;
+        }
+
+        // Update Chart
+        function updateChart(data) {
+            const ctx = document.getElementById("reportChart").getContext("2d");
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: data.map(item => item.type),
+                    datasets: [{
+                        label: "כמות פניות",
+                        data: data.map(item => item.count),
+                        backgroundColor: "rgba(75, 192, 192, 0.6)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        // Filter Data
+        document.getElementById("filterReportType").addEventListener("change", function () {
+            const filterValue = this.value;
+            const filteredData = filterValue === "all" ? reportData : reportData.filter(item => item.type === filterValue);
+            populateTable(filteredData);
+            updateSummary(filteredData);
+            updateChart(filteredData);
+        });
+
+        // Populate Previous Reports
+        function populatePreviousReports() {
+            const list = document.getElementById("previousReportsList");
+            list.innerHTML = "";
+            previousReports.forEach(report => {
+                const listItem = `<li><a href="${report.link}" download>${report.name}</a></li>`;
+                list.innerHTML += listItem;
+            });
+        }
+
+        // Export to CSV
+        function exportCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "סוג בעיה,כמות פניות,זמן טיפול ממוצע\n";
+            reportData.forEach(item => {
+                csvContent += `${item.type},${item.count},${item.averageTime}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "דוחות_פעילות.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Export to PDF
+        function exportPDF() {
+            alert("פונקציית ייצוא ל-PDF נמצאת בפיתוח.");
+        }
+
+        // Initialize
+        populateTable(reportData);
+        updateSummary(reportData);
+        updateChart(reportData);
+        populatePreviousReports();
+    </script>
+</body>
+</html>
+
+
