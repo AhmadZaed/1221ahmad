@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>מעקב אחר עומס במחלקות</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+            background: linear-gradient(135deg, white, #ff4d4d);
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        .department-card {
+            margin: 15px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="w3-container">
+        <h1 class="w3-center">מעקב אחר עומס במחלקות עירייה</h1>
+
+        <div class="container">
+            <!-- כרטיסים למחלקות -->
+            <div class="department-card">
+                <h2>מחלקת חשמל</h2>
+                <p>מספר משימות פתוחות: <span id="electricityTasks">0</span></p>
+                <button class="w3-button w3-blue" onclick="loadTasks('electricity')">הצג משימות</button>
+            </div>
+
+            <div class="department-card">
+                <h2>מחלקת תחבורה</h2>
+                <p>מספר משימות פתוחות: <span id="transportTasks">0</span></p>
+                <button class="w3-button w3-blue" onclick="loadTasks('transport')">הצג משימות</button>
+            </div>
+
+            <div class="department-card">
+                <h2>מחלקת מים</h2>
+                <p>מספר משימות פתוחות: <span id="waterTasks">0</span></p>
+                <button class="w3-button w3-blue" onclick="loadTasks('water')">הצג משימות</button>
+            </div>
+
+            <!-- אפשר להוסיף כרטיסים עבור מחלקות נוספות -->
+        </div>
+
+        <!-- גרף עומס מחלקות -->
+        <div class="chart-container">
+            <canvas id="departmentChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // נתוני דמה, יש להחליף בנתונים אמיתיים
+        const departmentData = {
+            "electricity": 5,
+            "transport": 3,
+            "water": 8
+        };
+
+        // הצגת נתוני העומס
+        function updateDepartmentData() {
+            document.getElementById('electricityTasks').textContent = departmentData.electricity;
+            document.getElementById('transportTasks').textContent = departmentData.transport;
+            document.getElementById('waterTasks').textContent = departmentData.water;
+        }
+
+        // הצגת גרף העומס
+        function loadChart() {
+            const ctx = document.getElementById('departmentChart').getContext('2d');
+            const departmentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['חשמל', 'תחבורה', 'מים'],
+                    datasets: [{
+                        label: 'מספר משימות פתוחות',
+                        data: [departmentData.electricity, departmentData.transport, departmentData.water],
+                        backgroundColor: ['#ff4d4d', '#4d94ff', '#4dff4d'],
+                        borderColor: ['#ff0000', '#0000ff', '#00ff00'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // טעינת נתונים למעקב אחרי משימות
+        function loadTasks(department) {
+            alert(`הצגת משימות עבור מחלקת ${department}`);
+            // אפשר להוסיף דינמיקה להציג את המשימות, או לשלוף נתונים נוספים
+        }
+
+        // עדכון נתוני העומס והגרף בעת טעינת הדף
+        window.onload = function() {
+            updateDepartmentData();
+            loadChart();
+        };
+    </script>
+</body>
+</html>

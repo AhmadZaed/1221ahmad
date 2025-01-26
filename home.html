@@ -182,7 +182,7 @@
             </div>
         </div>
     </div>
-
+ 
         <!-- Admin Panel -->
          
         <div id="adminContent" class="admin-panel" style="display: none;">
@@ -197,6 +197,7 @@
             <!-- Updates Section -->
             <div id="adminUpdates" class="admin-updates">
                 <h4>עדכונים אחרונים - בעיות טכניות ומשימות תחזוקה</h4>
+     
             
                 <!-- Filters and Sorting -->
                 <div class="filter-sort">
@@ -388,16 +389,24 @@
             </div>
         </div>
     </div>
+    <!-- כפתור לעובדים -->
+<div id="workerButton" style="display:none; text-align: center;">
+    <button class="btn-manage" onclick="navigateTo('מעקב אחר עומס במחלקות.html')">מעקב אחר עומס במחלמעקב אחר עומס במחלקוקות</button>
+           
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // הצגת תוכן המנהל רק אם המשתמש הוא אדמין
+            // בדיקה אם המשתמש הוא אדמין והצגת תוכן המנהל
             if (localStorage.getItem("userType") === "admin") {
                 document.getElementById("adminContent").style.display = "block";
                 loadUsers();
             }
+    
+            // הצגת כפתור "דף העובד" אם המשתמש הוא עובד
+            if (localStorage.getItem("userType") === "worker") {
+                document.getElementById("workerButton").style.display = "block";
+            }
         });
-
         // Scroll to User Management Section
         function scrollToUserManagement() {
             document.getElementById('userManagement').scrollIntoView({ behavior: 'smooth' });
