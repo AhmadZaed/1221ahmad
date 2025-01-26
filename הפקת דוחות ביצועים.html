@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הפקת דוחות ביצועים</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-generate {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-generate:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .download-btn {
+            margin-top: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>הפקת דוחות ביצועים</h1>
+
+        <!-- טופס סינון -->
+        <div class="form-group">
+            <label for="startDate">תאריך התחלה:</label>
+            <input type="date" id="startDate">
+        </div>
+
+        <div class="form-group">
+            <label for="endDate">תאריך סיום:</label>
+            <input type="date" id="endDate">
+        </div>
+
+        <div class="form-group">
+            <label for="department">בחר מחלקה:</label>
+            <select id="department">
+                <option value="all">כל המחלקות</option>
+                <option value="electricity">מחלקת חשמל</option>
+                <option value="water">מחלקת מים</option>
+                <option value="transport">מחלקת תחבורה</option>
+                <option value="cleaning">מחלקת נקיון</option>
+                <option value="sports">מחלקת ספורט</option>
+                <option value="development">מחלקת פיתוח</option>
+            </select>
+        </div>
+
+        <button class="btn-generate" onclick="generateReport()">הפק דוח</button>
+
+        <!-- טבלת דוח -->
+        <div id="reportContainer" style="display: none;">
+            <h2>דוח ביצועים</h2>
+            <table id="reportTable">
+                <thead>
+                    <tr>
+                        <th>תאריך</th>
+                        <th>מחלקה</th>
+                        <th>ביצועים</th>
+                        <th>סטטוס</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- הנתונים יתווספו כאן דינמית -->
+                </tbody>
+            </table>
+
+            <button class="download-btn" onclick="downloadReport()">הורד דוח (PDF/Excel)</button>
+        </div>
+    </div>
+
+    <script>
+        function generateReport() {
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            const department = document.getElementById("department").value;
+
+            if (!startDate || !endDate) {
+                alert("יש למלא את תאריך ההתחלה והסיום.");
+                return;
+            }
+
+            // נתונים לדוגמה
+            const dummyData = [
+                { date: "2025-01-20", department: "מחלקת חשמל", performance: "85%", status: "הושלם" },
+                { date: "2025-01-22", department: "מחלקת מים", performance: "75%", status: "בתהליך" },
+                { date: "2025-01-23", department: "מחלקת תחבורה", performance: "95%", status: "הושלם" },
+            ];
+
+            // סינון לפי הקריטריונים
+            const filteredData = dummyData.filter(item => {
+                const itemDate = new Date(item.date);
+                const from = new Date(startDate);
+                const to = new Date(endDate);
+
+                return (
+                    itemDate >= from &&
+                    itemDate <= to &&
+                    (department === "all" || item.department === department)
+                );
+            });
+
+            // הצגת הטבלה
+            const tableBody = document.querySelector("#reportTable tbody");
+            tableBody.innerHTML = ""; // ניקוי נתונים קודמים
+
+            filteredData.forEach(item => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.date}</td>
+                    <td>${item.department}</td>
+                    <td>${item.performance}</td>
+                    <td>${item.status}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            document.getElementById("reportContainer").style.display = "block";
+        }
+
+        function downloadReport() {
+            alert("פונקציית הורדה בפיתוח!");
+        }
+    </script>
+</body>
+</html>
