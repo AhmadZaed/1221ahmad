@@ -77,6 +77,16 @@
         .btn-cancel:hover {
             background-color: #e31a1a;
         }
+
+        #suggestionToWorkers {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffeb3b;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -135,6 +145,11 @@
                 <button type="button" class="btn btn-cancel" onclick="cancelForm()">ביטול</button>
             </div>
         </form>
+
+        <!-- הצעה לעובדים רק אם המשתמש הוא תושב -->
+        <div id="suggestionToWorkers">
+            <h3>הצעה לעובדים: יש להוסיף את הפרויקט הנוכחי לרשימת הפרויקטים של העיר</h3>
+        </div>
     </div>
 
     <script>
@@ -186,6 +201,27 @@
             sessionStorage.clear();
             alert("התנתקת בהצלחה!");
             window.location.href = 'login.html'; // מעבר לדף הכניסה
+        }
+
+        // טוען את סוג המשתמש ומסתיר את הקישורים המתאימים
+        document.addEventListener("DOMContentLoaded", function () {
+            checkUserType();
+        });
+
+        function checkUserType() {
+            const userType = localStorage.getItem("userType");
+
+            if (userType === "resident") {
+                // הצגת הצעה לעובדים אם המשתמש הוא תושב
+                document.getElementById('suggestionToWorkers').style.display = 'block';
+
+                // אפשר להסתיר כאן קישורים אם נדרשת הצגה אחרת
+            }
+        }
+
+        // הגדרת סוג המשתמש בעת התחברות
+        function setUserType(userType) {
+            localStorage.setItem("userType", userType);
         }
     </script>
 

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>עדכון גרסאות</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .alert-bar {
+            background-color: #ff4d4d;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-bar span {
+            font-weight: bold;
+        }
+
+        .alert-bar .close-btn {
+            background-color: white;
+            color: #ff4d4d;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 15px;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .alert-bar .close-btn:hover {
+            background-color: #ddd;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 80px auto 50px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            font-size: 16px;
+            margin: 10px 0 0;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .content h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        form input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        form button {
+            padding: 10px 15px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #d93c3c;
+        }
+
+        .history {
+            margin-top: 30px;
+        }
+
+        .history h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .history table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .history th, .history td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .history th {
+            background-color: #ffebeb;
+            color: #555;
+        }
+
+        .history td {
+            color: #333;
+        }
+
+        .btn-back-home {
+            display: block;
+            width: 200px;
+            margin: 20px auto 0;
+            text-align: center;
+            padding: 10px;
+            background-color: #ff4d4d;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back-home:hover {
+            background-color: #d93c3c;
+        }
+    </style>
+</head>
+<body>
+    <!-- Alert Bar -->
+    <div class="alert-bar" id="alertBar">
+        <span>גרסה חדשה זמינה לעדכון!</span>
+        <button class="close-btn" onclick="closeAlert()">סגור</button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>עדכון גרסאות מערכת</h1>
+            <p><strong>גרסה נוכחית:</strong> 1.0.0</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <h2>העלה גרסה חדשה</h2>
+            <form id="uploadForm">
+                <label for="uploadFile">בחר קובץ גרסה:</label>
+                <input type="file" id="uploadFile" name="uploadFile" required>
+                <button type="submit">העלה גרסה</button>
+            </form>
+
+            <div class="history">
+                <h3>היסטוריית גרסאות</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>תאריך</th>
+                            <th>גרסה</th>
+                            <th>סטטוס</th>
+                        </tr>
+                    </thead>
+                    <tbody id="versionHistory">
+                        <tr>
+                            <td>2025-01-01</td>
+                            <td>1.0.0</td>
+                            <td>פעיל</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Back to Home Button -->
+            <a href="home.html" class="btn-back-home">חזרה לדף הבית</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const fileInput = document.getElementById("uploadFile");
+            if (fileInput.files.length === 0) {
+                alert("אנא בחר קובץ גרסה.");
+                return;
+            }
+
+            const fileName = fileInput.files[0].name;
+            const currentDate = new Date().toISOString().split("T")[0];
+
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${currentDate}</td>
+                <td>${fileName}</td>
+                <td>ממתין להפעלה</td>
+            `;
+            document.getElementById("versionHistory").appendChild(newRow);
+
+            alert("הגרסה הועלתה בהצלחה!");
+            fileInput.value = "";
+        });
+
+        function closeAlert() {
+            document.getElementById("alertBar").style.display = "none";
+        }
+    </script>
+</body>
+</html>
