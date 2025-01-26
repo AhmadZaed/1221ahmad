@@ -244,3 +244,4 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),  # Logout route
     path('home/', views.home_view, name='home'),  # Example for main content
 ]
+
