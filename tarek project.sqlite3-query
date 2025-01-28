@@ -1,0 +1,4 @@
+-- database: ./db.sqlite3
+
+SELECT * FROM auth_group
+ORDER BY `id` DESC;
